@@ -7,5 +7,204 @@
     <link rel="stylesheet" href="styles.css" />
     <title>Falkon Carousel</title>
   </head>
-  <body></body>
+  <body>
+    <header class="header">
+      <div class="container">
+        <h1 class="header__logo">Falkon Carousel</h1>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <button class="nav__dropdown-btn">
+          Select Month
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="nav__dropdown-btn-icon"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </button>
+        <ul aria-expanded="true" class="nav__dropdown">
+          <li class="nav__dropdown-item">
+            <button aria-label="view month 1 image" class="nav__dropdown-btn">month 1</button>
+          </li>
+          <li class="nav__dropdown-item">
+            <button aria-label="view month 2 image" class="nav__dropdown-btn">month 2</button>
+          </li>
+          <li class="nav__dropdown-item">
+            <button aria-label="view month 3 image" class="nav__dropdown-btn">month 3</button>
+          </li>
+          <li class="nav__dropdown-item">
+            <button aria-label="view month 4 image" class="nav__dropdown-btn">month 4</button>
+          </li>
+          <li class="nav__dropdown-item">
+            <button aria-label="view month 5 image" class="nav__dropdown-btn">month 5</button>
+          </li>
+          <li class="nav__dropdown-item">
+            <button aria-label="view month 6 image" class="nav__dropdown-btn">month 6</button>
+          </li>
+          <li class="nav__dropdown-item">
+            <button aria-label="view month 7 image" class="nav__dropdown-btn">month 7</button>
+          </li>
+          <li class="nav__dropdown-item">
+            <button aria-label="view month 8 image" class="nav__dropdown-btn">month 8</button>
+          </li>
+          <li class="nav__dropdown-item">
+            <button aria-label="view month 9 image" class="nav__dropdown-btn">month 9</button>
+          </li>
+          <li class="nav__dropdown-item">
+            <button aria-label="view month 10 image" class="nav__dropdown-btn">
+              month 10
+            </button>
+          </li>
+          <li class="nav__dropdown-item">
+            <button aria-label="view month 11 image" class="nav__dropdown-btn">
+              month 11
+            </button>
+          </li>
+          <li class="nav__dropdown-item">
+            <button aria-label="view month 12 image" class="nav__dropdown-btn">
+              month 12
+            </button>
+          </li>
+        </ul>
+
+        <div class="carousel">
+          <button class="carousel__btn" aria-label="view next month's image">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="carousel__btn-icon carousel__btn-icon--next"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+          <button class="carousel__btn" aria-label="view previous month's image">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="carousel__btn-icon carousel__btn-icon--prev"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <ul class="carousel__track">
+            <li class="carousel__slide">
+              <img
+                src="https://unsplash.it/400/400?image=22"
+                alt="month 1"
+                class="carousel__img"
+              />
+            </li>
+            <li class="carousel__slide">
+              <img
+                src="https://unsplash.it/400/400?image=43"
+                alt="month 2"
+                class="carousel__img"
+              />
+            </li>
+            <li class="carousel__slide">
+              <img
+                src="https://unsplash.it/400/400?image=54"
+                alt="month 3"
+                class="carousel__img"
+              />
+            </li>
+            <li class="carousel__slide">
+              <img
+                src="https://unsplash.it/400/400?image=75"
+                alt="month 4"
+                class="carousel__img"
+              />
+            </li>
+            <li class="carousel__slide">
+              <img
+                src="https://unsplash.it/400/400?image=88"
+                alt="month 5"
+                class="carousel__img"
+              />
+            </li>
+            <li class="carousel__slide">
+              <img
+                src="https://unsplash.it/400/400?image=99"
+                alt="month 6"
+                class="carousel__img"
+              />
+            </li>
+            <li class="carousel__slide">
+              <img
+                src="https://unsplash.it/400/400?image=84"
+                alt="month 7"
+                class="carousel__img"
+              />
+            </li>
+            <li class="carousel__slide">
+              <img
+                src="https://unsplash.it/400/400?image=95"
+                alt="month 8"
+                class="carousel__img"
+              />
+            </li>
+            <li class="carousel__slide">
+              <img
+                src="https://unsplash.it/400/400?image=10"
+                alt="month 9"
+                class="carousel__img"
+              />
+            </li>
+            <li class="carousel__slide">
+              <img
+                src="https://unsplash.it/400/400?image=11"
+                alt="month 10"
+                class="carousel__img"
+              />
+            </li>
+            <li class="carousel__slide">
+              <img
+                src="https://unsplash.it/400/400?image=12"
+                alt="month 11"
+                class="carousel__img"
+              />
+            </li>
+            <li class="carousel__slide">
+              <img
+                src="https://unsplash.it/400/400?image=13"
+                alt="month 12"
+                class="carousel__img"
+              />
+            </li>
+          </ul>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <a class="github-link" href="https://github.com/Jmains/falkon-carousel/tree/main"
+        >View on <span class="github-link__text">Github</span></a
+      >
+    </footer>
+  </body>
 </html>
