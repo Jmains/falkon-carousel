@@ -16,15 +16,16 @@
 
   --container-size: 1024px;
 
-  --breakpoint-xl: 1200px;
+  /* --breakpoint-xl: 1200px;
   --breakpoint-lg: 1024px;
   --breakpoint-md: 768px;
-  --breakpoint-sm: 480px;
+  --breakpoint-sm: 480px; */
 
   background-color: var(--bg-color-light);
 }
 
 body {
+  position: relative;
   font-size: 16px;
   padding: 0;
   margin: 0;
@@ -65,7 +66,18 @@ img {
 .container {
   max-width: var(--container-size);
   margin: 0 auto;
-  padding: 0 1.25rem;
+  padding: 0 1rem;
+}
+
+.carousel-and-nav-container {
+  display: block;
+}
+
+@media only screen and (min-width: 768px) {
+  .carousel-and-nav-container {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 /* 
@@ -76,10 +88,19 @@ Begin Header Styles
 
 .header {
   padding: 0.75rem 0;
+  background-color: var(--bg-color-dark);
 }
 
 .header__logo {
-  font-size: 1.75rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--pri-color-white);
+}
+
+@media only screen and (min-width: 768px) {
+  .header__logo {
+    font-size: 1.75rem;
+  }
 }
 
 /* 
@@ -96,12 +117,15 @@ Begin Dropdown Styles
 
 .nav__container {
   max-width: 9.5rem;
-  text-align: right;
+  position: absolute;
+  top: -0.25rem;
+  right: 0.5rem;
 }
 
 .nav__dropdown-toggle-btn {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   width: 100%;
   background-color: var(--bg-color-dark);
   margin-top: 1rem;
@@ -110,7 +134,7 @@ Begin Dropdown Styles
 }
 
 .nav__dropdown-toggle-btn-text {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--pri-color-blue);
 }
@@ -157,6 +181,17 @@ Begin Dropdown Styles
   color: var(--pri-color-black);
 }
 
+@media only screen and (min-width: 768px) {
+  .nav__container {
+    position: static;
+    width: 25%;
+    margin-left: 0;
+  }
+  .nav__dropdown-toggle-btn-text {
+    font-size: 0.95rem;
+  }
+}
+
 /* 
 ================================================
 End Dropdown Styles
@@ -168,7 +203,17 @@ End Dropdown Styles
 Begin Carousel Styles
 ================================================
 */
+.carousel {
+  width: 80%;
+  margin: 0 auto;
+}
 
+@media only screen and (min-width: 768px) {
+  .carousel {
+    order: -1;
+    width: 65%;
+  }
+}
 /* 
 ================================================
 End Carousel Styles

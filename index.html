@@ -16,210 +16,211 @@
 
     <main class="main">
       <div class="container">
-        <div class="nav__container">
-          <button class="nav__dropdown-toggle-btn">
-            <span class="nav__dropdown-toggle-btn-text">Select month</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="nav__dropdown-toggle-btn-icon"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
-          <ul aria-expanded="true" class="nav__dropdown">
-            <li class="nav__dropdown-item">
-              <button
-                aria-label="view month 1 image"
-                class="nav__dropdown-item-btn nav__dropdown-item-btn--active"
+        <div class="carousel-and-nav-container">
+          <div class="nav__container">
+            <button aria-expanded="true" class="nav__dropdown-toggle-btn">
+              <span class="nav__dropdown-toggle-btn-text">Select month</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="nav__dropdown-toggle-btn-icon"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                January
-              </button>
-            </li>
-            <li class="nav__dropdown-item">
-              <button aria-label="view month 2 image" class="nav__dropdown-item-btn">
-                February
-              </button>
-            </li>
-            <li class="nav__dropdown-item">
-              <button aria-label="view month 3 image" class="nav__dropdown-item-btn">
-                March
-              </button>
-            </li>
-            <li class="nav__dropdown-item">
-              <button aria-label="view month 4 image" class="nav__dropdown-item-btn">
-                April
-              </button>
-            </li>
-            <li class="nav__dropdown-item">
-              <button aria-label="view month 5 image" class="nav__dropdown-item-btn">
-                May
-              </button>
-            </li>
-            <li class="nav__dropdown-item">
-              <button aria-label="view month 6 image" class="nav__dropdown-item-btn">
-                June
-              </button>
-            </li>
-            <li class="nav__dropdown-item">
-              <button aria-label="view month 7 image" class="nav__dropdown-item-btn">
-                July
-              </button>
-            </li>
-            <li class="nav__dropdown-item">
-              <button aria-label="view month 8 image" class="nav__dropdown-item-btn">
-                August
-              </button>
-            </li>
-            <li class="nav__dropdown-item">
-              <button aria-label="view month 9 image" class="nav__dropdown-item-btn">
-                September
-              </button>
-            </li>
-            <li class="nav__dropdown-item">
-              <button aria-label="view month 10 image" class="nav__dropdown-item-btn">
-                October
-              </button>
-            </li>
-            <li class="nav__dropdown-item">
-              <button aria-label="view month 11 image" class="nav__dropdown-item-btn">
-                November
-              </button>
-            </li>
-            <li class="nav__dropdown-item">
-              <button aria-label="view month 12 image" class="nav__dropdown-item-btn">
-                December
-              </button>
-            </li>
-          </ul>
-        </div>
-
-        <div class="carousel">
-          <button class="carousel__btn" aria-label="view next month's image">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="carousel__btn-icon carousel__btn-icon--next"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
-          <button class="carousel__btn" aria-label="view previous month's image">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="carousel__btn-icon carousel__btn-icon--prev"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-          <ul class="carousel__track">
-            <li class="carousel__slide">
-              <img
-                src="https://unsplash.it/400/400?image=22"
-                alt="month 1"
-                class="carousel__img"
-              />
-            </li>
-            <li class="carousel__slide">
-              <img
-                src="https://unsplash.it/400/400?image=43"
-                alt="month 2"
-                class="carousel__img"
-              />
-            </li>
-            <li class="carousel__slide">
-              <img
-                src="https://unsplash.it/400/400?image=54"
-                alt="month 3"
-                class="carousel__img"
-              />
-            </li>
-            <li class="carousel__slide">
-              <img
-                src="https://unsplash.it/400/400?image=75"
-                alt="month 4"
-                class="carousel__img"
-              />
-            </li>
-            <li class="carousel__slide">
-              <img
-                src="https://unsplash.it/400/400?image=88"
-                alt="month 5"
-                class="carousel__img"
-              />
-            </li>
-            <li class="carousel__slide">
-              <img
-                src="https://unsplash.it/400/400?image=99"
-                alt="month 6"
-                class="carousel__img"
-              />
-            </li>
-            <li class="carousel__slide">
-              <img
-                src="https://unsplash.it/400/400?image=84"
-                alt="month 7"
-                class="carousel__img"
-              />
-            </li>
-            <li class="carousel__slide">
-              <img
-                src="https://unsplash.it/400/400?image=95"
-                alt="month 8"
-                class="carousel__img"
-              />
-            </li>
-            <li class="carousel__slide">
-              <img
-                src="https://unsplash.it/400/400?image=10"
-                alt="month 9"
-                class="carousel__img"
-              />
-            </li>
-            <li class="carousel__slide">
-              <img
-                src="https://unsplash.it/400/400?image=11"
-                alt="month 10"
-                class="carousel__img"
-              />
-            </li>
-            <li class="carousel__slide">
-              <img
-                src="https://unsplash.it/400/400?image=12"
-                alt="month 11"
-                class="carousel__img"
-              />
-            </li>
-            <li class="carousel__slide">
-              <img
-                src="https://unsplash.it/400/400?image=13"
-                alt="month 12"
-                class="carousel__img"
-              />
-            </li>
-          </ul>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            <ul class="nav__dropdown">
+              <li class="nav__dropdown-item">
+                <button
+                  aria-label="view month 1 image"
+                  class="nav__dropdown-item-btn nav__dropdown-item-btn--active"
+                >
+                  January
+                </button>
+              </li>
+              <li class="nav__dropdown-item">
+                <button aria-label="view month 2 image" class="nav__dropdown-item-btn">
+                  February
+                </button>
+              </li>
+              <li class="nav__dropdown-item">
+                <button aria-label="view month 3 image" class="nav__dropdown-item-btn">
+                  March
+                </button>
+              </li>
+              <li class="nav__dropdown-item">
+                <button aria-label="view month 4 image" class="nav__dropdown-item-btn">
+                  April
+                </button>
+              </li>
+              <li class="nav__dropdown-item">
+                <button aria-label="view month 5 image" class="nav__dropdown-item-btn">
+                  May
+                </button>
+              </li>
+              <li class="nav__dropdown-item">
+                <button aria-label="view month 6 image" class="nav__dropdown-item-btn">
+                  June
+                </button>
+              </li>
+              <li class="nav__dropdown-item">
+                <button aria-label="view month 7 image" class="nav__dropdown-item-btn">
+                  July
+                </button>
+              </li>
+              <li class="nav__dropdown-item">
+                <button aria-label="view month 8 image" class="nav__dropdown-item-btn">
+                  August
+                </button>
+              </li>
+              <li class="nav__dropdown-item">
+                <button aria-label="view month 9 image" class="nav__dropdown-item-btn">
+                  September
+                </button>
+              </li>
+              <li class="nav__dropdown-item">
+                <button aria-label="view month 10 image" class="nav__dropdown-item-btn">
+                  October
+                </button>
+              </li>
+              <li class="nav__dropdown-item">
+                <button aria-label="view month 11 image" class="nav__dropdown-item-btn">
+                  November
+                </button>
+              </li>
+              <li class="nav__dropdown-item">
+                <button aria-label="view month 12 image" class="nav__dropdown-item-btn">
+                  December
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div class="carousel">
+            <button class="carousel__btn" aria-label="view next month's image">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="carousel__btn-icon carousel__btn-icon--next"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+            <button class="carousel__btn" aria-label="view previous month's image">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="carousel__btn-icon carousel__btn-icon--prev"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+            <ul class="carousel__track">
+              <li class="carousel__slide">
+                <img
+                  src="https://unsplash.it/400/400?image=22"
+                  alt="month 1"
+                  class="carousel__img"
+                />
+              </li>
+              <li class="carousel__slide">
+                <img
+                  src="https://unsplash.it/400/400?image=43"
+                  alt="month 2"
+                  class="carousel__img"
+                />
+              </li>
+              <li class="carousel__slide">
+                <img
+                  src="https://unsplash.it/400/400?image=54"
+                  alt="month 3"
+                  class="carousel__img"
+                />
+              </li>
+              <li class="carousel__slide">
+                <img
+                  src="https://unsplash.it/400/400?image=75"
+                  alt="month 4"
+                  class="carousel__img"
+                />
+              </li>
+              <li class="carousel__slide">
+                <img
+                  src="https://unsplash.it/400/400?image=88"
+                  alt="month 5"
+                  class="carousel__img"
+                />
+              </li>
+              <li class="carousel__slide">
+                <img
+                  src="https://unsplash.it/400/400?image=99"
+                  alt="month 6"
+                  class="carousel__img"
+                />
+              </li>
+              <li class="carousel__slide">
+                <img
+                  src="https://unsplash.it/400/400?image=84"
+                  alt="month 7"
+                  class="carousel__img"
+                />
+              </li>
+              <li class="carousel__slide">
+                <img
+                  src="https://unsplash.it/400/400?image=95"
+                  alt="month 8"
+                  class="carousel__img"
+                />
+              </li>
+              <li class="carousel__slide">
+                <img
+                  src="https://unsplash.it/400/400?image=10"
+                  alt="month 9"
+                  class="carousel__img"
+                />
+              </li>
+              <li class="carousel__slide">
+                <img
+                  src="https://unsplash.it/400/400?image=11"
+                  alt="month 10"
+                  class="carousel__img"
+                />
+              </li>
+              <li class="carousel__slide">
+                <img
+                  src="https://unsplash.it/400/400?image=12"
+                  alt="month 11"
+                  class="carousel__img"
+                />
+              </li>
+              <li class="carousel__slide">
+                <img
+                  src="https://unsplash.it/400/400?image=13"
+                  alt="month 12"
+                  class="carousel__img"
+                />
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </main>
