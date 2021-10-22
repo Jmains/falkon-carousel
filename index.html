@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
     <title>Falkon Carousel</title>
   </head>
   <body>
@@ -16,67 +16,90 @@
 
     <main class="main">
       <div class="container">
-        <button class="nav__dropdown-btn">
-          Select Month
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="nav__dropdown-btn-icon"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </button>
-        <ul aria-expanded="true" class="nav__dropdown">
-          <li class="nav__dropdown-item">
-            <button aria-label="view month 1 image" class="nav__dropdown-btn">month 1</button>
-          </li>
-          <li class="nav__dropdown-item">
-            <button aria-label="view month 2 image" class="nav__dropdown-btn">month 2</button>
-          </li>
-          <li class="nav__dropdown-item">
-            <button aria-label="view month 3 image" class="nav__dropdown-btn">month 3</button>
-          </li>
-          <li class="nav__dropdown-item">
-            <button aria-label="view month 4 image" class="nav__dropdown-btn">month 4</button>
-          </li>
-          <li class="nav__dropdown-item">
-            <button aria-label="view month 5 image" class="nav__dropdown-btn">month 5</button>
-          </li>
-          <li class="nav__dropdown-item">
-            <button aria-label="view month 6 image" class="nav__dropdown-btn">month 6</button>
-          </li>
-          <li class="nav__dropdown-item">
-            <button aria-label="view month 7 image" class="nav__dropdown-btn">month 7</button>
-          </li>
-          <li class="nav__dropdown-item">
-            <button aria-label="view month 8 image" class="nav__dropdown-btn">month 8</button>
-          </li>
-          <li class="nav__dropdown-item">
-            <button aria-label="view month 9 image" class="nav__dropdown-btn">month 9</button>
-          </li>
-          <li class="nav__dropdown-item">
-            <button aria-label="view month 10 image" class="nav__dropdown-btn">
-              month 10
-            </button>
-          </li>
-          <li class="nav__dropdown-item">
-            <button aria-label="view month 11 image" class="nav__dropdown-btn">
-              month 11
-            </button>
-          </li>
-          <li class="nav__dropdown-item">
-            <button aria-label="view month 12 image" class="nav__dropdown-btn">
-              month 12
-            </button>
-          </li>
-        </ul>
+        <div class="nav__container">
+          <button class="nav__dropdown-toggle-btn">
+            <span class="nav__dropdown-toggle-btn-text">Select month</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="nav__dropdown-toggle-btn-icon"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+          <ul aria-expanded="true" class="nav__dropdown">
+            <li class="nav__dropdown-item">
+              <button
+                aria-label="view month 1 image"
+                class="nav__dropdown-item-btn nav__dropdown-item-btn--active"
+              >
+                January
+              </button>
+            </li>
+            <li class="nav__dropdown-item">
+              <button aria-label="view month 2 image" class="nav__dropdown-item-btn">
+                February
+              </button>
+            </li>
+            <li class="nav__dropdown-item">
+              <button aria-label="view month 3 image" class="nav__dropdown-item-btn">
+                March
+              </button>
+            </li>
+            <li class="nav__dropdown-item">
+              <button aria-label="view month 4 image" class="nav__dropdown-item-btn">
+                April
+              </button>
+            </li>
+            <li class="nav__dropdown-item">
+              <button aria-label="view month 5 image" class="nav__dropdown-item-btn">
+                May
+              </button>
+            </li>
+            <li class="nav__dropdown-item">
+              <button aria-label="view month 6 image" class="nav__dropdown-item-btn">
+                June
+              </button>
+            </li>
+            <li class="nav__dropdown-item">
+              <button aria-label="view month 7 image" class="nav__dropdown-item-btn">
+                July
+              </button>
+            </li>
+            <li class="nav__dropdown-item">
+              <button aria-label="view month 8 image" class="nav__dropdown-item-btn">
+                August
+              </button>
+            </li>
+            <li class="nav__dropdown-item">
+              <button aria-label="view month 9 image" class="nav__dropdown-item-btn">
+                September
+              </button>
+            </li>
+            <li class="nav__dropdown-item">
+              <button aria-label="view month 10 image" class="nav__dropdown-item-btn">
+                October
+              </button>
+            </li>
+            <li class="nav__dropdown-item">
+              <button aria-label="view month 11 image" class="nav__dropdown-item-btn">
+                November
+              </button>
+            </li>
+            <li class="nav__dropdown-item">
+              <button aria-label="view month 12 image" class="nav__dropdown-item-btn">
+                December
+              </button>
+            </li>
+          </ul>
+        </div>
 
         <div class="carousel">
           <button class="carousel__btn" aria-label="view next month's image">
