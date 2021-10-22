@@ -1,1 +1,233 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --pri-color-blue: hsl(203, 65%, 68%);
+  --pri-color-lightBlue: hsl(202, 62%, 84%);
+  --pri-color-black: hsl(0, 0%, 0%);
+  --pri-color-green: hsl(169, 58%, 49%);
+  --pri-color-white: hsl(0, 0%, 100%);
+
+  --bg-color-dark: hsl(0, 0%, 13%);
+  --bg-color-light: hsl(0, 0%, 100%);
+
+  --container-size: 1024px;
+
+  /* --breakpoint-xl: 1200px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-md: 768px;
+  --breakpoint-sm: 480px; */
+
+  background-color: var(--bg-color-light);
+}
+
+body {
+  position: relative;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  border: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+.container {
+  max-width: var(--container-size);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.carousel-and-nav-container {
+  display: block;
+}
+
+@media only screen and (min-width: 768px) {
+  .carousel-and-nav-container {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+/* 
+================================================
+Begin Header Styles
+================================================
+*/
+
+.header {
+  padding: 0.75rem 0;
+  background-color: var(--bg-color-dark);
+}
+
+.header__logo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--pri-color-white);
+}
+
+@media only screen and (min-width: 768px) {
+  .header__logo {
+    font-size: 1.75rem;
+  }
+}
+
+/* 
+================================================
+End Header Styles
+================================================
+*/
+
+/* 
+================================================
+Begin Dropdown Styles
+================================================
+*/
+
+.nav__container {
+  max-width: 9.5rem;
+  position: absolute;
+  top: -0.25rem;
+  right: 0.5rem;
+}
+
+.nav__dropdown-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  background-color: var(--bg-color-dark);
+  margin-top: 1rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 5px;
+}
+
+.nav__dropdown-toggle-btn-text {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--pri-color-blue);
+}
+
+.nav__dropdown-toggle-btn-icon {
+  height: 1.25rem;
+  width: 1.25rem;
+  margin-left: 0.25rem;
+  color: var(--pri-color-blue);
+}
+
+.nav__dropdown {
+  background-color: var(--bg-color-dark);
+  border-radius: 5px;
+  border: 1px solid rgb(0, 0, 0);
+  margin-top: 0.5rem;
+}
+
+.nav__dropdown-item + .nav__dropdown-item {
+  border-top: 1px solid rgba(0, 0, 0, 0.123);
+}
+
+.nav__dropdown-item-btn {
+  display: block;
+  font-weight: 500;
+  text-align: right;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  color: var(--pri-color-white);
+  background-color: transparent;
+  border-radius: 5px;
+}
+
+.nav__dropdown-item-btn:hover {
+  background-color: var(--pri-color-blue);
+  color: var(--pri-color-black);
+  transition-property: background-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+}
+
+.nav__dropdown-item-btn--active {
+  background-color: var(--pri-color-blue);
+  color: var(--pri-color-black);
+}
+
+@media only screen and (min-width: 768px) {
+  .nav__container {
+    position: static;
+    width: 25%;
+    margin-left: 0;
+  }
+  .nav__dropdown-toggle-btn-text {
+    font-size: 0.95rem;
+  }
+}
+
+/* 
+================================================
+End Dropdown Styles
+================================================
+*/
+
+/* 
+================================================
+Begin Carousel Styles
+================================================
+*/
+.carousel {
+  width: 80%;
+  margin: 0 auto;
+}
+
+@media only screen and (min-width: 768px) {
+  .carousel {
+    order: -1;
+    width: 65%;
+  }
+}
+/* 
+================================================
+End Carousel Styles
+================================================
+*/
+
+/* 
+================================================
+Begin Footer Styles
+================================================
+*/
+
+/* 
+================================================
+End Footer Styles
+================================================
+*/
