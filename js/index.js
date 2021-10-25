@@ -40,9 +40,13 @@ dropdownToggleBtn.addEventListener("click", () => {
 let currentCarouselItemIdx = 0;
 let prevItem, currentItem, nextItem;
 
+// Carousel DOM elements
 const carouselItems = document.getElementsByClassName("carousel__item");
 const carouselNextBtn = document.getElementById("carouselNextBtn");
 const carouselPrevBtn = document.getElementById("carouselPreviousBtn");
+
+// Dropdown DOM elements
+const dropdownItemBtns = document.getElementsByClassName("nav__dropdown-item-btn");
 
 const totalCarouselItems = carouselItems.length;
 
@@ -72,29 +76,46 @@ const totalCarouselItems = carouselItems.length;
 // If there are slides then set the active state on first slide
 if (totalCarouselItems > 0) {
   carouselItems[currentCarouselItemIdx].classList.add("carousel__item--active");
+  dropdownItemBtns[currentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
 }
 
 const handleCarouselNextBtnClick = () => {
   if (currentCarouselItemIdx === totalCarouselItems - 1) {
     carouselItems[currentCarouselItemIdx].classList.remove("carousel__item--active");
+    dropdownItemBtns[currentCarouselItemIdx].classList.remove(
+      "nav__dropdown-item-btn--active"
+    );
     currentCarouselItemIdx = 0;
     carouselItems[currentCarouselItemIdx].classList.add("carousel__item--active");
+    dropdownItemBtns[currentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
   } else {
     carouselItems[currentCarouselItemIdx].classList.remove("carousel__item--active");
+    dropdownItemBtns[currentCarouselItemIdx].classList.remove(
+      "nav__dropdown-item-btn--active"
+    );
     currentCarouselItemIdx++;
     carouselItems[currentCarouselItemIdx].classList.add("carousel__item--active");
+    dropdownItemBtns[currentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
   }
 };
 
 const handleCarouselPrevBtnClick = () => {
   if (currentCarouselItemIdx === 0) {
     carouselItems[currentCarouselItemIdx].classList.remove("carousel__item--active");
+    dropdownItemBtns[currentCarouselItemIdx].classList.remove(
+      "nav__dropdown-item-btn--active"
+    );
     currentCarouselItemIdx = totalCarouselItems - 1;
     carouselItems[currentCarouselItemIdx].classList.add("carousel__item--active");
+    dropdownItemBtns[currentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
   } else {
     carouselItems[currentCarouselItemIdx].classList.remove("carousel__item--active");
+    dropdownItemBtns[currentCarouselItemIdx].classList.remove(
+      "nav__dropdown-item-btn--active"
+    );
     currentCarouselItemIdx--;
     carouselItems[currentCarouselItemIdx].classList.add("carousel__item--active");
+    dropdownItemBtns[currentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
   }
 };
 
