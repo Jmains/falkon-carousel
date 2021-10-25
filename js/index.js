@@ -79,6 +79,7 @@ if (totalCarouselItems > 0) {
   dropdownItemBtns[currentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
 }
 
+// Start onClick event handlers
 const handleCarouselNextBtnClick = () => {
   if (currentCarouselItemIdx === totalCarouselItems - 1) {
     carouselItems[currentCarouselItemIdx].classList.remove("carousel__item--active");
@@ -119,6 +120,13 @@ const handleCarouselPrevBtnClick = () => {
   }
 };
 
+const handleDropdownItemClick = (dropdownItemIdx) => {
+  currentCarouselItemIdx = dropdownItemIdx;
+  console.log(currentCarouselItemIdx);
+};
+// End onClick event handlers
+
+// Start inject eventListeners
 carouselNextBtn.addEventListener("click", () => {
   handleCarouselNextBtnClick();
 });
@@ -126,6 +134,13 @@ carouselNextBtn.addEventListener("click", () => {
 carouselPrevBtn.addEventListener("click", () => {
   handleCarouselPrevBtnClick();
 });
+
+for (let i = 0; i < dropdownItemBtns.length; i++) {
+  dropdownItemBtns[i].addEventListener("click", () => {
+    handleDropdownItemClick(i);
+  });
+}
+// End inject eventListeners
 /*
  *********** End Dropdown Functionality ***********
  */
