@@ -1,4 +1,91 @@
 // TODO: Programmatically populate carousel items based on given number of imgs
+const carouselImages = [
+  {
+    url: "https://unsplash.it/800/800?image=22",
+    alt: "January",
+    text: "January",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=43",
+    alt: "February",
+    text: "February",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=54",
+    alt: "March",
+    text: "March",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=75",
+    alt: "April",
+    text: "April",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=88",
+    alt: "May",
+    text: "May",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=99",
+    alt: "June",
+    text: "June",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=84",
+    alt: "July",
+    text: "July",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=96",
+    alt: "August",
+    text: "August",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=92",
+    alt: "September",
+    text: "September",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=83",
+    alt: "October",
+    text: "October",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=79",
+    alt: "November",
+    text: "November",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=14",
+    alt: "December",
+    text: "December",
+  },
+];
+
+const createCarouselItems = (carouselImages) => {
+  let carouselInnerContainer = document.getElementById("carouselInnerContainer");
+  for (const img of carouselImages) {
+    // Create li tag
+    let carouselListItem = document.createElement("li");
+    carouselListItem.classList.add("carousel__item");
+    // Create img tag
+    let carouselImg = document.createElement("img");
+    carouselImg.src = img.url;
+    carouselImg.alt = img.alt;
+    carouselImg.classList.add("carousel__img");
+    // Create img text
+    let carouselImgText = document.createElement("p");
+    carouselImgText.innerHTML = img.text;
+    carouselImgText.classList.add("carousel__img-text");
+
+    carouselListItem.appendChild(carouselImg);
+    carouselListItem.appendChild(carouselImgText);
+
+    carouselInnerContainer.appendChild(carouselListItem);
+  }
+};
+
+createCarouselItems(carouselImages);
 
 // TODO: Programmatically populate dropdown nav items based on given number of imgs
 
