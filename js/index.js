@@ -1,4 +1,3 @@
-// TODO: Programmatically populate carousel items based on given number of imgs
 const carouselImages = [
   {
     url: "https://unsplash.it/800/800?image=22",
@@ -64,18 +63,23 @@ const carouselImages = [
 
 const createCarouselItems = (carouselImages) => {
   let carouselInnerContainer = document.getElementById("carouselInnerContainer");
+
+  const carouselListItemClassName = "carousel__item";
+  const carouselImgClassName = "carousel__img";
+  const carouselImgTextClassName = "carousel__img-text";
+
   for (const img of carouselImages) {
     let carouselListItem = document.createElement("li");
-    carouselListItem.classList.add("carousel__item");
+    carouselListItem.classList.add(carouselListItemClassName);
 
     let carouselImg = document.createElement("img");
     carouselImg.src = img.url;
     carouselImg.alt = img.alt;
-    carouselImg.classList.add("carousel__img");
+    carouselImg.classList.add(carouselImgClassName);
 
     let carouselImgText = document.createElement("p");
     carouselImgText.innerHTML = img.text;
-    carouselImgText.classList.add("carousel__img-text");
+    carouselImgText.classList.add(carouselImgTextClassName);
 
     carouselListItem.appendChild(carouselImg);
     carouselListItem.appendChild(carouselImgText);
@@ -84,17 +88,20 @@ const createCarouselItems = (carouselImages) => {
   }
 };
 
-// TODO: Programmatically populate dropdown nav items based on given number of imgs
 const createDropdownItems = (carouselImages) => {
   let dropdown = document.getElementById("dropdown");
+
+  const dropdownListItemClassName = "nav__dropdown-item";
+  const dropdownListItemBtnClassName = "nav__dropdown-item-btn";
+
   for (const img of carouselImages) {
     let dropdownListItem = document.createElement("li");
-    dropdownListItem.classList.add("nav__dropdown-item");
+    dropdownListItem.classList.add(dropdownListItemClassName);
 
     let dropdownListItemBtn = document.createElement("button");
     dropdownListItemBtn.innerText = img.text;
     dropdownListItemBtn.ariaLabel = `view ${img.text} image`;
-    dropdownListItemBtn.classList.add("nav__dropdown-item-btn");
+    dropdownListItemBtn.classList.add(dropdownListItemBtnClassName);
 
     dropdownListItem.appendChild(dropdownListItemBtn);
 
@@ -102,9 +109,7 @@ const createDropdownItems = (carouselImages) => {
   }
 };
 
-// TODO: Programmatically populate drop down list indicators
-
-// TODO: Add month text (jan, feb, march, etc...) under each carousel item
+// TODO: Maybe programmatically populate drop down list indicators
 
 createCarouselItems(carouselImages);
 createDropdownItems(carouselImages);
