@@ -37,8 +37,8 @@ dropdownToggleBtn.addEventListener("click", () => {
 /*
  *********** Start Carousel Functionality ***********
  */
+
 let currentCarouselItemIdx = 0;
-let prevItem, currentItem, nextItem;
 
 // Carousel DOM elements
 const carouselItems = document.getElementsByClassName("carousel__item");
@@ -50,34 +50,21 @@ const dropdownItemBtns = document.getElementsByClassName("nav__dropdown-item-btn
 
 const totalCarouselItems = carouselItems.length;
 
-// Experimental
-// const setItemPositions = (currentCarouselItemIdx) => {
-//   if (currentCarouselItemIdx === 0) {
-//     prevItem = carouselItems[totalCarouselItems - 1];
-//     currentItem = carouselItems[currentCarouselItemIdx];
-//     nextItem = carouselItems[currentCarouselItemIdx + 1];
-//   } else if (currentCarouselItemIdx === totalCarouselItems - 1) {
-//     prevItem = carouselItems[currentCarouselItemIdx - 1];
-//     currentItem = carouselItems[currentCarouselItemIdx];
-//     nextItem = carouselItems[0];
-//   } else {
-//     prevItem = carouselItems[currentCarouselItemIdx - 1];
-//     currentItem = carouselItems[currentCarouselItemIdx];
-//     nextItem = carouselItems[currentCarouselItemIdx + 1];
-//   }
-
-//   currentItem.style.left = "0";
-//   prevItem.style.left = "100%";
-//   nextItem.style.left = "-100%";
-// };
-
-// setItemPositions(currentCarouselItemIdx);
-
 // If there are slides then set the active state on first slide
 if (totalCarouselItems > 0) {
   carouselItems[currentCarouselItemIdx].classList.add("carousel__item--active");
   dropdownItemBtns[currentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
 }
+
+const updateCarouselImage = (currentCarouselItemIdx, newCurrentCarouselItemIdx) => {
+  // remove appropriate class lists
+  carouselItems[currentCarouselItemIdx].classList.remove("carousel__item--active");
+  dropdownItemBtns[currentCarouselItemIdx].classList.remove("nav__dropdown-item-btn--active");
+
+  // add appropriate class list
+  carouselItems[newCurrentCarouselItemIdx].classList.add("carousel__item--active");
+  dropdownItemBtns[newCurrentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
+};
 
 // Start onClick event handlers
 const handleCarouselNextBtnClick = () => {
@@ -121,8 +108,9 @@ const handleCarouselPrevBtnClick = () => {
 };
 
 const handleDropdownItemClick = (dropdownItemIdx) => {
+  updateCarouselImage(currentCarouselItemIdx, dropdownItemIdx);
+  // Update the currentCarouselItemIdx to the newCarouselItemIdx
   currentCarouselItemIdx = dropdownItemIdx;
-  console.log(currentCarouselItemIdx);
 };
 // End onClick event handlers
 
@@ -141,6 +129,7 @@ for (let i = 0; i < dropdownItemBtns.length; i++) {
   });
 }
 // End inject eventListeners
+
 /*
  *********** End Dropdown Functionality ***********
  */
