@@ -15,21 +15,37 @@ const dropdown = document.getElementById("dropdown");
 
 // Added and removed z index because visibilty hidden still applied z-index to
 // dropdown disabling carousel next button click
+
+const hideDropdown = () => {
+  navContainer.style.zIndex = 0;
+  dropdown.classList.remove("nav__dropdown--show");
+  dropdown.ariaExpanded = false;
+};
+
+const showDropdown = () => {
+  navContainer.style.zIndex = 50;
+  dropdown.classList.add("nav__dropdown--show");
+  dropdown.ariaExpanded = true;
+};
+
 const handleDropdownClick = () => {
   if (dropdown.classList.contains("nav__dropdown--show")) {
-    navContainer.style.zIndex = 0;
-    dropdown.classList.remove("nav__dropdown--show");
-    dropdown.ariaExpanded = false;
+    hideDropdown();
   } else {
-    navContainer.style.zIndex = 50;
-    dropdown.classList.add("nav__dropdown--show");
-    dropdown.ariaExpanded = true;
+    showDropdown();
+  }
+};
+
+const handleDropdownEscape = (ev) => {
+  if (ev.key === "Esc" || ev.key === "Escape") {
+    hideDropdown();
   }
 };
 
 dropdownToggleBtn.addEventListener("click", () => {
   handleDropdownClick();
 });
+document.addEventListener("keydown", handleDropdownEscape);
 /*
  *********** End Dropdown Functionality ***********
  */
