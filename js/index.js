@@ -1,10 +1,118 @@
-// TODO: Programmatically populate carousel items based on given number of imgs
+const carouselImages = [
+  {
+    url: "https://unsplash.it/800/800?image=22",
+    alt: "January",
+    text: "January",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=43",
+    alt: "February",
+    text: "February",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=54",
+    alt: "March",
+    text: "March",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=75",
+    alt: "April",
+    text: "April",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=88",
+    alt: "May",
+    text: "May",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=99",
+    alt: "June",
+    text: "June",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=84",
+    alt: "July",
+    text: "July",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=91",
+    alt: "August",
+    text: "August",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=92",
+    alt: "September",
+    text: "September",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=83",
+    alt: "October",
+    text: "October",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=79",
+    alt: "November",
+    text: "November",
+  },
+  {
+    url: "https://unsplash.it/800/800?image=14",
+    alt: "December",
+    text: "December",
+  },
+];
 
-// TODO: Programmatically populate dropdown nav items based on given number of imgs
+const createCarouselItems = (carouselImages) => {
+  let carouselInnerContainer = document.getElementById("carouselInnerContainer");
 
-// TODO: Programmatically populate drop down list indicators
+  const carouselListItemClassName = "carousel__item";
+  const carouselImgClassName = "carousel__img";
+  const carouselImgTextClassName = "carousel__img-text";
 
-// TODO: Add month text (jan, feb, march, etc...) under each carousel item
+  for (const img of carouselImages) {
+    let carouselListItem = document.createElement("li");
+    carouselListItem.classList.add(carouselListItemClassName);
+
+    let carouselImg = document.createElement("img");
+    carouselImg.src = img.url;
+    carouselImg.alt = img.alt;
+    carouselImg.classList.add(carouselImgClassName);
+
+    let carouselImgText = document.createElement("p");
+    carouselImgText.innerHTML = img.text;
+    carouselImgText.classList.add(carouselImgTextClassName);
+
+    carouselListItem.appendChild(carouselImg);
+    carouselListItem.appendChild(carouselImgText);
+
+    carouselInnerContainer.appendChild(carouselListItem);
+  }
+};
+
+const createDropdownItems = (carouselImages) => {
+  let dropdown = document.getElementById("dropdown");
+
+  const dropdownListItemClassName = "nav__dropdown-item";
+  const dropdownListItemBtnClassName = "nav__dropdown-item-btn";
+
+  for (const img of carouselImages) {
+    let dropdownListItem = document.createElement("li");
+    dropdownListItem.classList.add(dropdownListItemClassName);
+
+    let dropdownListItemBtn = document.createElement("button");
+    dropdownListItemBtn.innerText = img.text;
+    dropdownListItemBtn.ariaLabel = `view ${img.text} image`;
+    dropdownListItemBtn.classList.add(dropdownListItemBtnClassName);
+
+    dropdownListItem.appendChild(dropdownListItemBtn);
+
+    dropdown.appendChild(dropdownListItem);
+  }
+};
+
+// TODO: Maybe programmatically populate drop down list indicators
+
+createCarouselItems(carouselImages);
+createDropdownItems(carouselImages);
 
 /*
  *********** Start Dropdown Functionality ***********
