@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/styles.css" />
+    <script defer src="/js/index.js"></script>
     <title>Falkon Carousel</title>
+    <!-- TODO: Add SEO tags -->
   </head>
   <body>
     <header class="header">
@@ -17,8 +19,12 @@
     <main class="main">
       <div class="container">
         <div class="carousel-and-nav-container">
-          <div class="nav__container">
-            <button aria-expanded="true" class="nav__dropdown-toggle-btn">
+          <div id="navContainer" class="nav__container">
+            <button
+              id="dropdownToggleBtn"
+              aria-expanded="false"
+              class="nav__dropdown-toggle-btn"
+            >
               <span class="nav__dropdown-toggle-btn-text">Select month</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +41,9 @@
                 />
               </svg>
             </button>
-            <ul class="nav__dropdown">
+            <!-- TODO: Programmatically populate dropdown nav items based on given number of imgs -->
+            <!-- TODO: Add month text (jan, feb, march, etc...) under each carousel item -->
+            <ul id="dropdown" class="nav__dropdown">
               <li class="nav__dropdown-item">
                 <button
                   aria-label="view January image"
@@ -99,8 +107,10 @@
               </li>
             </ul>
           </div>
+          <!-- TODO: Programmatically populate carousel items based on given number of imgs -->
           <div class="carousel">
             <button
+              id="carouselNextBtn"
               class="carousel__btn carousel__btn--next"
               aria-label="view next month's image"
             >
@@ -120,6 +130,7 @@
               </svg>
             </button>
             <button
+              id="carouselPreviousBtn"
               class="carousel__btn carousel__btn--prev"
               aria-label="view previous month's image"
             >
@@ -229,6 +240,7 @@
       </div>
     </main>
 
+    <!-- TODO: Add footer styles -->
     <footer class="footer">
       <div class="container">
         <a class="github-link" href="https://github.com/Jmains/falkon-carousel/tree/main"

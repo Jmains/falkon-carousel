@@ -112,7 +112,6 @@ Begin Dropdown Styles
   position: absolute;
   top: 0.75rem;
   right: 0.5rem;
-  z-index: 50;
 }
 
 .nav__dropdown-toggle-btn {
@@ -128,9 +127,10 @@ Begin Dropdown Styles
   box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075),
     0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.075),
     0 16px 16px hsl(0deg 0% 0% / 0.075);
+
   transition-property: background-color, color;
   transition-duration: 250ms;
-  transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in;
 }
 
 .nav__dropdown-toggle-btn:hover {
@@ -150,6 +150,9 @@ Begin Dropdown Styles
 }
 
 .nav__dropdown {
+  opacity: 0;
+  visibility: hidden;
+
   background-color: var(--bg-color-dark);
   border-radius: 5px;
   border: 1px solid rgb(0, 0, 0);
@@ -157,6 +160,15 @@ Begin Dropdown Styles
   box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075),
     0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.075),
     0 16px 16px hsl(0deg 0% 0% / 0.075);
+
+  transition-property: opacity;
+  transition-duration: 300ms;
+  transition-timing-function: ease-in-out;
+}
+
+.nav__dropdown--show {
+  opacity: 1;
+  visibility: visible;
 }
 
 .nav__dropdown-item + .nav__dropdown-item {
@@ -222,7 +234,7 @@ Begin Carousel Styles
   padding: 0;
   background-color: var(--bg-color-dark);
   border-radius: 5px;
-  z-index: 5;
+  z-index: 10;
   top: 50%; /*top doesn't take in the size of the btns*/
   transform: translateY(-50%);
 }
@@ -235,16 +247,17 @@ Begin Carousel Styles
 }
 
 .carousel__btn--next {
-  right: 1rem;
+  right: 0rem;
 }
 
 .carousel__btn--prev {
-  left: 1rem;
+  left: 0rem;
 }
 
 .carousel__inner-container {
   position: relative;
-  width: 100%; /*to be calculated with our boy JS */
+  width: 75%;
+  margin: 0 auto;
   height: 100%;
   overflow: hidden;
 }
@@ -255,10 +268,24 @@ Begin Carousel Styles
   left: 0;
   width: 100%;
   height: 100%;
+  opacity: 0;
 
-  transition-property: transform;
-  transition-duration: 300ms;
+  transition-property: transform, opacity;
+  transition-duration: 600ms;
   transition-timing-function: ease-in-out;
+}
+
+.carousel__item--active {
+  opacity: 1;
+  /* transform: translateX(0); */
+}
+
+.carousel__item--next {
+  transform: translateX(-100%);
+}
+
+.carousel__item--prev {
+  transform: translateX(100%);
 }
 
 .carousel__slide--active {
