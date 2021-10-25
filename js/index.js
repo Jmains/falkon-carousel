@@ -36,7 +36,7 @@ const carouselImages = [
     text: "July",
   },
   {
-    url: "https://unsplash.it/800/800?image=96",
+    url: "https://unsplash.it/800/800?image=91",
     alt: "August",
     text: "August",
   },
@@ -65,15 +65,14 @@ const carouselImages = [
 const createCarouselItems = (carouselImages) => {
   let carouselInnerContainer = document.getElementById("carouselInnerContainer");
   for (const img of carouselImages) {
-    // Create li tag
     let carouselListItem = document.createElement("li");
     carouselListItem.classList.add("carousel__item");
-    // Create img tag
+
     let carouselImg = document.createElement("img");
     carouselImg.src = img.url;
     carouselImg.alt = img.alt;
     carouselImg.classList.add("carousel__img");
-    // Create img text
+
     let carouselImgText = document.createElement("p");
     carouselImgText.innerHTML = img.text;
     carouselImgText.classList.add("carousel__img-text");
@@ -85,13 +84,30 @@ const createCarouselItems = (carouselImages) => {
   }
 };
 
-createCarouselItems(carouselImages);
-
 // TODO: Programmatically populate dropdown nav items based on given number of imgs
+const createDropdownItems = (carouselImages) => {
+  let dropdown = document.getElementById("dropdown");
+  for (const img of carouselImages) {
+    let dropdownListItem = document.createElement("li");
+    dropdownListItem.classList.add("nav__dropdown-item");
+
+    let dropdownListItemBtn = document.createElement("button");
+    dropdownListItemBtn.innerText = img.text;
+    dropdownListItemBtn.ariaLabel = `view ${img.text} image`;
+    dropdownListItemBtn.classList.add("nav__dropdown-item-btn");
+
+    dropdownListItem.appendChild(dropdownListItemBtn);
+
+    dropdown.appendChild(dropdownListItem);
+  }
+};
 
 // TODO: Programmatically populate drop down list indicators
 
 // TODO: Add month text (jan, feb, march, etc...) under each carousel item
+
+createCarouselItems(carouselImages);
+createDropdownItems(carouselImages);
 
 /*
  *********** Start Dropdown Functionality ***********
