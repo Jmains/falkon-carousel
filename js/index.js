@@ -225,22 +225,25 @@ if (totalCarouselItems > 2) {
   dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
 }
 
-const updateCarouselImage = (currentCarouselItemIdx, targetCarouselItemIdx) => {
-  // remove appropriate class lists
-  carouselItems[currentCarouselItemIdx].classList.remove(activeCarouselItemClassName);
-  dropdownItemBtns[currentCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
-
-  // add appropriate class list
-  carouselItems[targetCarouselItemIdx].classList.add(activeCarouselItemClassName);
-  dropdownItemBtns[targetCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
-
-  return targetCarouselItemIdx;
+const updateDropdownActiveItem = (oldCarouselItemIdx, newCarouselItemIdx) => {
+  dropdownItemBtns[oldCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
+  dropdownItemBtns[newCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
 };
 
-const slideToNextImg = (currentCarouselItemIdx) => {
-  if (currentCarouselItemIdx === totalCarouselItems - 1) {
-    dropdownItemBtns[currentCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
+const updateCarouselImgViaFade = (oldCarouselItemIdx, newCarouselItemIdx) => {
+  carouselItems[oldCarouselItemIdx].classList.remove(activeCarouselItemClassName);
+  carouselItems[newCarouselItemIdx].classList.add(activeCarouselItemClassName);
+  updateDropdownActiveItem(oldCarouselItemIdx, newCarouselItemIdx);
 
+  return newCarouselItemIdx;
+};
+
+const updateCarouselImgViaSlide = (
+  slidingDirection,
+  oldCarouselItemIdx,
+  newCarouselItemIdx
+) => {
+  if (slidingDirection === "left") {
     // Slide current slide away and remove active state
     currentItem.classList.add(slideCarouselItemLeftClassName);
     currentItem.classList.remove(activeCarouselItemClassName);
@@ -255,48 +258,11 @@ const slideToNextImg = (currentCarouselItemIdx) => {
       oldCurr.classList.remove(slideCarouselItemLeftClassName);
     }, 600);
 
-    currentCarouselItemIdx = 0;
-    updateCarouselItemPositions(currentCarouselItemIdx);
-
-    dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
+    updateCarouselItemPositions(newCarouselItemIdx);
 
     currentItem.classList.add(activeCarouselItemClassName);
     nextItem.classList.add(carouselPositionNextItemClassName);
   } else {
-    // Remove active state from dropdown
-    dropdownItemBtns[currentCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
-
-    // Slide current slide away and remove active state
-    currentItem.classList.add(slideCarouselItemLeftClassName);
-    currentItem.classList.remove(activeCarouselItemClassName);
-
-    // Slide next slide into view, set active state, and remove setnext class
-    nextItem.classList.add(activeCarouselItemClassName);
-    nextItem.classList.remove(carouselPositionNextItemClassName);
-
-    let oldCurr = currentItem;
-    // After slide transition completes remove translateX(-100%)
-    setTimeout(() => {
-      oldCurr.classList.remove(slideCarouselItemLeftClassName);
-    }, 600);
-
-    currentCarouselItemIdx++;
-    updateCarouselItemPositions(currentCarouselItemIdx);
-
-    dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
-
-    currentItem.classList.add(activeCarouselItemClassName);
-    nextItem.classList.add(carouselPositionNextItemClassName);
-  }
-
-  return currentCarouselItemIdx;
-};
-
-const slideToPrevImg = (currentCarouselItemIdx) => {
-  if (currentCarouselItemIdx === 0) {
-    // Remove active state from dropdown
-    dropdownItemBtns[currentCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
-
     // Slide current carousel item to the right and remove active state
     currentItem.classList.add(slideCarouselItemRightClassName);
     currentItem.classList.remove(activeCarouselItemClassName);
@@ -311,37 +277,51 @@ const slideToPrevImg = (currentCarouselItemIdx) => {
       oldCurr.classList.remove(slideCarouselItemRightClassName);
     }, 600);
 
-    currentCarouselItemIdx = totalCarouselItems - 1;
-    updateCarouselItemPositions(currentCarouselItemIdx);
-
-    dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
+    updateCarouselItemPositions(newCarouselItemIdx);
 
     currentItem.classList.add(activeCarouselItemClassName);
     prevItem.classList.add(carouselPositionPrevItemClassName);
+  }
+};
+
+const slideToNextImg = (currentCarouselItemIdx) => {
+  let oldCarouselItemIdx, newCarouselItemIdx;
+
+  if (currentCarouselItemIdx === totalCarouselItems - 1) {
+    oldCarouselItemIdx = currentCarouselItemIdx;
+    currentCarouselItemIdx = 0;
+    newCarouselItemIdx = currentCarouselItemIdx;
+
+    updateDropdownActiveItem(oldCarouselItemIdx, newCarouselItemIdx);
+    updateCarouselImgViaSlide("left", oldCarouselItemIdx, newCarouselItemIdx);
   } else {
-    // Remove active state from dropdown
-    dropdownItemBtns[currentCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
+    oldCarouselItemIdx = currentCarouselItemIdx;
+    currentCarouselItemIdx++;
+    newCarouselItemIdx = currentCarouselItemIdx;
 
-    // Slide current slide away and remove active state
-    currentItem.classList.add(slideCarouselItemRightClassName);
-    currentItem.classList.remove(activeCarouselItemClassName);
+    updateDropdownActiveItem(oldCarouselItemIdx, newCarouselItemIdx);
+    updateCarouselImgViaSlide("left", oldCarouselItemIdx, newCarouselItemIdx);
+  }
 
-    // Slide next slide into view, set active state, and remove setnext class
-    prevItem.classList.add(activeCarouselItemClassName);
-    prevItem.classList.remove(carouselPositionPrevItemClassName);
+  return currentCarouselItemIdx;
+};
 
-    let oldCurr = currentItem;
-    // After slide transition completes remove translateX(100%)
-    setTimeout(() => {
-      oldCurr.classList.remove(slideCarouselItemRightClassName);
-    }, 600);
+const slideToPrevImg = (currentCarouselItemIdx) => {
+  let oldCarouselItemIdx, newCarouselItemIdx;
+  if (currentCarouselItemIdx === 0) {
+    oldCarouselItemIdx = currentCarouselItemIdx;
+    currentCarouselItemIdx = totalCarouselItems - 1;
+    newCarouselItemIdx = currentCarouselItemIdx;
+
+    updateDropdownActiveItem(oldCarouselItemIdx, newCarouselItemIdx);
+    updateCarouselImgViaSlide("right", oldCarouselItemIdx, newCarouselItemIdx);
+  } else {
+    oldCarouselItemIdx = currentCarouselItemIdx;
     currentCarouselItemIdx--;
-    updateCarouselItemPositions(currentCarouselItemIdx);
+    newCarouselItemIdx = currentCarouselItemIdx;
 
-    dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
-
-    currentItem.classList.add(activeCarouselItemClassName);
-    prevItem.classList.add(carouselPositionPrevItemClassName);
+    updateDropdownActiveItem(oldCarouselItemIdx, newCarouselItemIdx);
+    updateCarouselImgViaSlide("right", oldCarouselItemIdx, newCarouselItemIdx);
   }
 
   return currentCarouselItemIdx;
@@ -357,7 +337,7 @@ const handleCarouselPrevBtnClick = () => {
 };
 
 const handleDropdownItemClick = (dropdownItemIdx) => {
-  currentCarouselItemIdx = updateCarouselImage(currentCarouselItemIdx, dropdownItemIdx);
+  currentCarouselItemIdx = updateCarouselImgViaFade(currentCarouselItemIdx, dropdownItemIdx);
 };
 // End onClick event handlers
 
