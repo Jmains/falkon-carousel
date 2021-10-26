@@ -123,9 +123,6 @@ const dropdown = document.getElementById("dropdown");
 
 const showDropdownClassName = "nav__dropdown--show";
 
-// Added and removed z index because visibilty hidden still applied z-index to
-// dropdown disabling carousel next button click
-
 const hideDropdown = () => {
   navContainer.style.zIndex = 0;
   dropdown.classList.remove(showDropdownClassName);
@@ -168,11 +165,6 @@ document.addEventListener("keydown", handleDropdownEscape);
 let prevItem, currItem, nextItem;
 let currentCarouselItemIdx = 0;
 
-const transitionDirections = {
-  LEFT: "left",
-  RIGHT: "right",
-};
-
 // Carousel DOM elements
 const carouselItems = document.getElementsByClassName("carousel__item");
 const carouselNextBtn = document.getElementById("carouselNextBtn");
@@ -194,10 +186,22 @@ const dropdownItemBtns = document.getElementsByClassName("nav__dropdown-item-btn
 const totalCarouselItems = carouselItems.length;
 
 // TODO: Maybe refactor updateCarouselItemPositions to return carousel items state instead of global being a global variable
-// TODO: Disable buttons while carousel items are transitioning so setTimeout doesn't get out of sync
+
+const disableNextAndPrevBtns = (isDisabled = false) => {
+  carouselNextBtn.disabled = isDisabled;
+  carouselNextBtn.ariaDisabled = isDisabled;
+  carouselPrevBtn.disabled = isDisabled;
+  carouselPrevBtn.ariaDisabled = isDisabled;
+};
+
+const disableDropdownItemBtns = (isDisabled = false) => {
+  for (const btn of dropdownItemBtns) {
+    btn.disabled = isDisabled;
+  }
+};
 
 const updateCarouselItemPositions = (currCarouselItemIdx) => {
-  // Remove all style positions if they exist in any current carousel direction
+  // Remove previous positioning styles
   if (
     prevItem?.classList.contains(carouselPositionPrevItemClassName) &&
     currItem?.classList.contains(activeCarouselItemClassName) &&
@@ -208,13 +212,14 @@ const updateCarouselItemPositions = (currCarouselItemIdx) => {
     nextItem.classList.remove(carouselPositionNextItemClassName);
   }
 
-  // If first item
-  if (currCarouselItemIdx === 0) {
+  const firstCarouselItem = currCarouselItemIdx === 0;
+  const lastCarouselItem = currCarouselItemIdx === totalCarouselItems - 1;
+
+  if (firstCarouselItem) {
     prevItem = carouselItems[totalCarouselItems - 1];
     currItem = carouselItems[currCarouselItemIdx];
     nextItem = carouselItems[currCarouselItemIdx].nextElementSibling;
-  } // If last item
-  else if (currCarouselItemIdx === totalCarouselItems - 1) {
+  } else if (lastCarouselItem) {
     prevItem = carouselItems[currCarouselItemIdx].previousElementSibling;
     currItem = carouselItems[currCarouselItemIdx];
     nextItem = carouselItems[0];
@@ -227,6 +232,14 @@ const updateCarouselItemPositions = (currCarouselItemIdx) => {
   prevItem.classList.add(carouselPositionPrevItemClassName);
   currItem.classList.add(activeCarouselItemClassName);
   nextItem.classList.add(carouselPositionNextItemClassName);
+
+  disableNextAndPrevBtns(true);
+  disableDropdownItemBtns(true);
+
+  setTimeout(() => {
+    disableNextAndPrevBtns(false);
+    disableDropdownItemBtns(false);
+  }, 400);
 
   return currCarouselItemIdx;
 };
@@ -242,26 +255,6 @@ if (totalCarouselItems > 0) {
 const updateDropdownActiveItem = (oldCarouselItemIdx, currentCarouselItemIdx) => {
   dropdownItemBtns[oldCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
   dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
-
-  return currentCarouselItemIdx;
-};
-
-const performSlideOnCurrentItem = (currentCarouselItemIdx, slidingDirection) => {
-  let slideDirectionClassName;
-
-  if (slidingDirection === transitionDirections.LEFT) {
-    slideDirectionClassName = slideCarouselItemLeftClassName;
-  } else if (slidingDirection === transitionDirections.RIGHT) {
-    slideDirectionClassName = slideCarouselItemRightClassName;
-  }
-  // Slide current item given direction
-  const currItem = carouselItems[currentCarouselItemIdx];
-  currItem.classList.add(slideDirectionClassName);
-  // TODO: Disable buttons on transition
-  // After slide transition completes remove translateX(-100%) or translateX(100%) depending on slide direction
-  setTimeout(() => {
-    currItem.classList.remove(slideDirectionClassName);
-  }, 600);
 
   return currentCarouselItemIdx;
 };
@@ -288,10 +281,7 @@ const setPrevImgIdx = (currentCarouselItemIdx) => {
 const handleCarouselNextBtnClick = () => {
   const oldCarouselItemIdx = currentCarouselItemIdx;
 
-  currentCarouselItemIdx = performSlideOnCurrentItem(
-    currentCarouselItemIdx,
-    transitionDirections.LEFT
-  );
+  currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
   currentCarouselItemIdx = setNextImgIdx(currentCarouselItemIdx);
   currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
 
@@ -304,10 +294,7 @@ const handleCarouselNextBtnClick = () => {
 const handleCarouselPrevBtnClick = () => {
   const oldCarouselItemIdx = currentCarouselItemIdx;
 
-  currentCarouselItemIdx = performSlideOnCurrentItem(
-    currentCarouselItemIdx,
-    transitionDirections.RIGHT
-  );
+  currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
   currentCarouselItemIdx = setPrevImgIdx(currentCarouselItemIdx);
   currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
 
@@ -319,7 +306,9 @@ const handleCarouselPrevBtnClick = () => {
 
 const handleDropdownItemClick = (dropdownItemIdx) => {
   const oldCarouselItemIdx = currentCarouselItemIdx;
+
   currentCarouselItemIdx = updateCarouselItemPositions(dropdownItemIdx);
+
   currentCarouselItemIdx = updateDropdownActiveItem(
     oldCarouselItemIdx,
     currentCarouselItemIdx

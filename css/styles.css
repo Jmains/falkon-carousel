@@ -271,7 +271,7 @@ Begin Carousel Styles
   opacity: 0;
 
   transition-property: transform, opacity;
-  transition-duration: 600ms;
+  transition-duration: 400ms;
   transition-timing-function: ease-in-out;
 }
 
@@ -288,16 +288,12 @@ Begin Carousel Styles
   transform: translateX(100%);
 }
 
-.carousel__item--setprev {
-  transform: translateX(-100%);
-}
-
 .carousel__item--prev {
   transform: translateX(100%);
 }
 
-.carousel__slide--active {
-  display: block;
+.carousel__item--setprev {
+  transform: translateX(-100%);
 }
 
 .carousel__img {
