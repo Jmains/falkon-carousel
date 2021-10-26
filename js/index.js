@@ -121,23 +121,25 @@ const navContainer = document.getElementById("navContainer");
 const dropdownToggleBtn = document.getElementById("dropdownToggleBtn");
 const dropdown = document.getElementById("dropdown");
 
+const showDropdownClassName = "nav__dropdown--show";
+
 // Added and removed z index because visibilty hidden still applied z-index to
 // dropdown disabling carousel next button click
 
 const hideDropdown = () => {
   navContainer.style.zIndex = 0;
-  dropdown.classList.remove("nav__dropdown--show");
+  dropdown.classList.remove(showDropdownClassName);
   dropdown.ariaExpanded = false;
 };
 
 const showDropdown = () => {
   navContainer.style.zIndex = 50;
-  dropdown.classList.add("nav__dropdown--show");
+  dropdown.classList.add(showDropdownClassName);
   dropdown.ariaExpanded = true;
 };
 
 const handleDropdownClick = () => {
-  if (dropdown.classList.contains("nav__dropdown--show")) {
+  if (dropdown.classList.contains(showDropdownClassName)) {
     hideDropdown();
   } else {
     showDropdown();
@@ -153,6 +155,7 @@ const handleDropdownEscape = (ev) => {
 dropdownToggleBtn.addEventListener("click", () => {
   handleDropdownClick();
 });
+
 document.addEventListener("keydown", handleDropdownEscape);
 /*
  *********** End Dropdown Functionality ***********
@@ -170,19 +173,25 @@ const carouselItems = document.getElementsByClassName("carousel__item");
 const carouselNextBtn = document.getElementById("carouselNextBtn");
 const carouselPrevBtn = document.getElementById("carouselPreviousBtn");
 
-// const activeCarouselClassName = ""
-// const slideCarouselItemLeftClassName = ""
-// const slideCarouselItemRightClassName = ""
+// Carousel ClassNames
+const activeCarouselItemClassName = "carousel__item--active";
+const slideCarouselItemLeftClassName = "carousel__item--next";
+const slideCarouselItemRightClassName = "carousel__item--prev";
+const carouselPositionNextItemClassName = "carousel__item--setnext";
+const carouselPositionPrevItemClassName = "carousel__item--setprev";
 
-// const activeDropdownItemClassName = ""
+// Dropdown ClassNames
+const activeDropdownItemBtnClassName = "nav__dropdown-item-btn--active";
 
-// Dropdown DOM elements
+// Dropdown DOM element
 const dropdownItemBtns = document.getElementsByClassName("nav__dropdown-item-btn");
 
 const totalCarouselItems = carouselItems.length;
 
 // TODO: Fix carousel bug: Reset css styles on carousel direction change or remove the specific "setnext" or "setprev" styles instead
 // TODO: Maybe refactor updateCarouselItemPositions to return carousel items state instead of global being a global variable
+// TODO: Disable buttons while carousel items are transitioning so setTimeout doesn't get out of sync
+// TODO: Refactor prev and next btn handlers
 
 const updateCarouselItemPositions = (currentCarouselItemIdx) => {
   // let prevItem, currentItem, nextItem;
@@ -205,82 +214,79 @@ const updateCarouselItemPositions = (currentCarouselItemIdx) => {
   // return { prevItem, currentItem, nextItem };
 };
 
+// Set initial state of the carousel items
 updateCarouselItemPositions(currentCarouselItemIdx);
 
 // If there are slides then set the active state on first slide
 if (totalCarouselItems > 2) {
-  prevItem.classList.add("carousel__item--setprev");
-  currentItem.classList.add("carousel__item--active");
-  nextItem.classList.add("carousel__item--setnext");
-  dropdownItemBtns[currentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
+  prevItem.classList.add(carouselPositionPrevItemClassName);
+  currentItem.classList.add(activeCarouselItemClassName);
+  nextItem.classList.add(carouselPositionNextItemClassName);
+  dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
 }
 
 const updateCarouselImage = (currentCarouselItemIdx, targetCarouselItemIdx) => {
   // remove appropriate class lists
-  carouselItems[currentCarouselItemIdx].classList.remove("carousel__item--active");
-  dropdownItemBtns[currentCarouselItemIdx].classList.remove("nav__dropdown-item-btn--active");
+  carouselItems[currentCarouselItemIdx].classList.remove(activeCarouselItemClassName);
+  dropdownItemBtns[currentCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
 
   // add appropriate class list
-  carouselItems[targetCarouselItemIdx].classList.add("carousel__item--active");
-  dropdownItemBtns[targetCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
+  carouselItems[targetCarouselItemIdx].classList.add(activeCarouselItemClassName);
+  dropdownItemBtns[targetCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
 
   return targetCarouselItemIdx;
 };
 
 const slideToNextImg = (currentCarouselItemIdx) => {
   if (currentCarouselItemIdx === totalCarouselItems - 1) {
-    dropdownItemBtns[currentCarouselItemIdx].classList.remove(
-      "nav__dropdown-item-btn--active"
-    );
+    dropdownItemBtns[currentCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
 
     // Slide current slide away and remove active state
-    currentItem.classList.add("carousel__item--next");
-    currentItem.classList.remove("carousel__item--active");
+    currentItem.classList.add(slideCarouselItemLeftClassName);
+    currentItem.classList.remove(activeCarouselItemClassName);
 
     // Slide next slide into view, set active state, and remove setnext class
-    nextItem.classList.add("carousel__item--active");
-    nextItem.classList.remove("carousel__item--setnext");
+    nextItem.classList.add(activeCarouselItemClassName);
+    nextItem.classList.remove(carouselPositionNextItemClassName);
 
     let oldCurr = currentItem;
     // After slide transition completes remove translateX(-100%)
     setTimeout(() => {
-      oldCurr.classList.remove("carousel__item--next");
+      oldCurr.classList.remove(slideCarouselItemLeftClassName);
     }, 600);
 
     currentCarouselItemIdx = 0;
     updateCarouselItemPositions(currentCarouselItemIdx);
 
-    dropdownItemBtns[currentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
+    dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
 
-    currentItem.classList.add("carousel__item--active");
-    nextItem.classList.add("carousel__item--setnext");
+    currentItem.classList.add(activeCarouselItemClassName);
+    nextItem.classList.add(carouselPositionNextItemClassName);
   } else {
     // Remove active state from dropdown
-    dropdownItemBtns[currentCarouselItemIdx].classList.remove(
-      "nav__dropdown-item-btn--active"
-    );
+    dropdownItemBtns[currentCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
 
     // Slide current slide away and remove active state
-    currentItem.classList.add("carousel__item--next");
-    currentItem.classList.remove("carousel__item--active");
+    currentItem.classList.add(slideCarouselItemLeftClassName);
+    currentItem.classList.remove(activeCarouselItemClassName);
 
     // Slide next slide into view, set active state, and remove setnext class
-    nextItem.classList.add("carousel__item--active");
-    nextItem.classList.remove("carousel__item--setnext");
+    nextItem.classList.add(activeCarouselItemClassName);
+    nextItem.classList.remove(carouselPositionNextItemClassName);
 
     let oldCurr = currentItem;
     // After slide transition completes remove translateX(-100%)
     setTimeout(() => {
-      oldCurr.classList.remove("carousel__item--next");
+      oldCurr.classList.remove(slideCarouselItemLeftClassName);
     }, 600);
 
     currentCarouselItemIdx++;
     updateCarouselItemPositions(currentCarouselItemIdx);
 
-    dropdownItemBtns[currentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
+    dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
 
-    currentItem.classList.add("carousel__item--active");
-    nextItem.classList.add("carousel__item--setnext");
+    currentItem.classList.add(activeCarouselItemClassName);
+    nextItem.classList.add(carouselPositionNextItemClassName);
   }
 
   return currentCarouselItemIdx;
@@ -289,57 +295,53 @@ const slideToNextImg = (currentCarouselItemIdx) => {
 const slideToPrevImg = (currentCarouselItemIdx) => {
   if (currentCarouselItemIdx === 0) {
     // Remove active state from dropdown
-    dropdownItemBtns[currentCarouselItemIdx].classList.remove(
-      "nav__dropdown-item-btn--active"
-    );
+    dropdownItemBtns[currentCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
 
     // Slide current carousel item to the right and remove active state
-    currentItem.classList.add("carousel__item--prev");
-    currentItem.classList.remove("carousel__item--active");
+    currentItem.classList.add(slideCarouselItemRightClassName);
+    currentItem.classList.remove(activeCarouselItemClassName);
 
     // Slide next carousel item into view, set active state, and remove setnext class
-    prevItem.classList.add("carousel__item--active");
-    prevItem.classList.remove("carousel__item--setprev");
+    prevItem.classList.add(activeCarouselItemClassName);
+    prevItem.classList.remove(carouselPositionPrevItemClassName);
 
     let oldCurr = currentItem;
     // After slide transition completes remove translateX(100%)
     setTimeout(() => {
-      oldCurr.classList.remove("carousel__item--prev");
+      oldCurr.classList.remove(slideCarouselItemRightClassName);
     }, 600);
 
     currentCarouselItemIdx = totalCarouselItems - 1;
     updateCarouselItemPositions(currentCarouselItemIdx);
 
-    dropdownItemBtns[currentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
+    dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
 
-    currentItem.classList.add("carousel__item--active");
-    prevItem.classList.add("carousel__item--setprev");
+    currentItem.classList.add(activeCarouselItemClassName);
+    prevItem.classList.add(carouselPositionPrevItemClassName);
   } else {
     // Remove active state from dropdown
-    dropdownItemBtns[currentCarouselItemIdx].classList.remove(
-      "nav__dropdown-item-btn--active"
-    );
+    dropdownItemBtns[currentCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
 
     // Slide current slide away and remove active state
-    currentItem.classList.add("carousel__item--prev");
-    currentItem.classList.remove("carousel__item--active");
+    currentItem.classList.add(slideCarouselItemRightClassName);
+    currentItem.classList.remove(activeCarouselItemClassName);
 
     // Slide next slide into view, set active state, and remove setnext class
-    prevItem.classList.add("carousel__item--active");
-    prevItem.classList.remove("carousel__item--setprev");
+    prevItem.classList.add(activeCarouselItemClassName);
+    prevItem.classList.remove(carouselPositionPrevItemClassName);
 
     let oldCurr = currentItem;
     // After slide transition completes remove translateX(100%)
     setTimeout(() => {
-      oldCurr.classList.remove("carousel__item--prev");
+      oldCurr.classList.remove(slideCarouselItemRightClassName);
     }, 600);
     currentCarouselItemIdx--;
     updateCarouselItemPositions(currentCarouselItemIdx);
 
-    dropdownItemBtns[currentCarouselItemIdx].classList.add("nav__dropdown-item-btn--active");
+    dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
 
-    currentItem.classList.add("carousel__item--active");
-    prevItem.classList.add("carousel__item--setprev");
+    currentItem.classList.add(activeCarouselItemClassName);
+    prevItem.classList.add(carouselPositionPrevItemClassName);
   }
 
   return currentCarouselItemIdx;
@@ -347,20 +349,14 @@ const slideToPrevImg = (currentCarouselItemIdx) => {
 
 // Start onClick event handlers
 const handleCarouselNextBtnClick = () => {
-  // Return index because index is only updated within the function scope since
-  // we passed in the carouselItemIdx
   currentCarouselItemIdx = slideToNextImg(currentCarouselItemIdx);
 };
 
 const handleCarouselPrevBtnClick = () => {
-  // Return index because index is only updated within the function scope since
-  // we passed in the carouselItemIdx
   currentCarouselItemIdx = slideToPrevImg(currentCarouselItemIdx);
 };
 
 const handleDropdownItemClick = (dropdownItemIdx) => {
-  // Return index because index is only updated within the function scope since
-  // we passed in the carouselItemIdx
   currentCarouselItemIdx = updateCarouselImage(currentCarouselItemIdx, dropdownItemIdx);
 };
 // End onClick event handlers
