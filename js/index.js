@@ -168,6 +168,11 @@ document.addEventListener("keydown", handleDropdownEscape);
 let currentCarouselItemIdx = 0;
 let prevItem, currentItem, nextItem;
 
+const transitionDirections = {
+  LEFT: "left",
+  RIGHT: "right",
+};
+
 // Carousel DOM elements
 const carouselItems = document.getElementsByClassName("carousel__item");
 const carouselNextBtn = document.getElementById("carouselNextBtn");
@@ -193,8 +198,42 @@ const totalCarouselItems = carouselItems.length;
 // TODO: Disable buttons while carousel items are transitioning so setTimeout doesn't get out of sync
 // TODO: Refactor prev and next btn handlers
 
-const updateCarouselItemPositions = (currentCarouselItemIdx) => {
-  // let prevItem, currentItem, nextItem;
+const updateCarouselItemPositions = (
+  currentCarouselItemIdx,
+  newCarouselItemIdx,
+  transitionDirection
+) => {
+  // Remove all style positions if they exist in any current carousel direction
+  if (
+    transitionDirection &&
+    transitionDirection === transitionDirections.LEFT &&
+    prevItem?.classList.contains(carouselPositionPrevItemClassName) &&
+    currentItem?.classList.contains(activeCarouselItemClassName) &&
+    nextItem?.classList.contains(carouselPositionNextItemClassName)
+  ) {
+    prevItem.classList.remove(carouselPositionPrevItemClassName);
+    currentItem.classList.remove(activeCarouselItemClassName);
+    nextItem.classList.remove(carouselPositionNextItemClassName);
+  } else if (
+    transitionDirection &&
+    transitionDirection === transitionDirections.RIGHT &&
+    nextItem?.classList.contains(carouselPositionPrevItemClassName) &&
+    currentItem?.classList.contains(activeCarouselItemClassName) &&
+    prevItem?.classList.contains(carouselPositionNextItemClassName)
+  ) {
+    nextItem.classList.remove(carouselPositionPrevItemClassName);
+    currentItem.classList.remove(activeCarouselItemClassName);
+    prevItem.classList.remove(carouselPositionNextItemClassName);
+  } else if (
+    prevItem?.classList.contains(carouselPositionPrevItemClassName) &&
+    currentItem?.classList.contains(activeCarouselItemClassName) &&
+    nextItem?.classList.contains(carouselPositionNextItemClassName)
+  ) {
+    prevItem.classList.remove(carouselPositionPrevItemClassName);
+    currentItem.classList.remove(activeCarouselItemClassName);
+    nextItem.classList.remove(carouselPositionNextItemClassName);
+  }
+
   // If first item
   if (currentCarouselItemIdx === 0) {
     prevItem = carouselItems[totalCarouselItems - 1];
@@ -211,7 +250,21 @@ const updateCarouselItemPositions = (currentCarouselItemIdx) => {
     nextItem = carouselItems[currentCarouselItemIdx].nextElementSibling;
   }
 
-  // return { prevItem, currentItem, nextItem };
+  if (transitionDirection && transitionDirection === transitionDirections.LEFT) {
+    prevItem.classList.add(carouselPositionPrevItemClassName);
+    currentItem.classList.add(activeCarouselItemClassName);
+    nextItem.classList.add(carouselPositionNextItemClassName);
+  } else if (transitionDirection && transitionDirection === transitionDirections.RIGHT) {
+    nextItem.classList.add(carouselPositionNextItemClassName);
+    currentItem.classList.add(activeCarouselItemClassName);
+    prevItem.classList.add(carouselPositionPrevItemClassName);
+  } else {
+    prevItem.classList.add(carouselPositionPrevItemClassName);
+    currentItem.classList.add(activeCarouselItemClassName);
+    nextItem.classList.add(carouselPositionNextItemClassName);
+  }
+
+  if (newCarouselItemIdx) updateCarouselItemPositions(newCarouselItemIdx);
 };
 
 // Set initial state of the carousel items
@@ -231,8 +284,7 @@ const updateDropdownActiveItem = (oldCarouselItemIdx, newCarouselItemIdx) => {
 };
 
 const updateCarouselImgViaFade = (oldCarouselItemIdx, newCarouselItemIdx) => {
-  carouselItems[oldCarouselItemIdx].classList.remove(activeCarouselItemClassName);
-  carouselItems[newCarouselItemIdx].classList.add(activeCarouselItemClassName);
+  updateCarouselItemPositions(oldCarouselItemIdx, newCarouselItemIdx);
   updateDropdownActiveItem(oldCarouselItemIdx, newCarouselItemIdx);
 
   return newCarouselItemIdx;
@@ -243,45 +295,25 @@ const updateCarouselImgViaSlide = (
   oldCarouselItemIdx,
   newCarouselItemIdx
 ) => {
-  if (slidingDirection === "left") {
-    // Slide current slide away and remove active state
-    currentItem.classList.add(slideCarouselItemLeftClassName);
-    currentItem.classList.remove(activeCarouselItemClassName);
+  let slideDirectionClassName;
 
-    // Slide next slide into view, set active state, and remove setnext class
-    nextItem.classList.add(activeCarouselItemClassName);
-    nextItem.classList.remove(carouselPositionNextItemClassName);
-
-    let oldCurr = currentItem;
-    // After slide transition completes remove translateX(-100%)
-    setTimeout(() => {
-      oldCurr.classList.remove(slideCarouselItemLeftClassName);
-    }, 600);
-
-    updateCarouselItemPositions(newCarouselItemIdx);
-
-    currentItem.classList.add(activeCarouselItemClassName);
-    nextItem.classList.add(carouselPositionNextItemClassName);
+  if (slidingDirection === transitionDirections.LEFT) {
+    slideDirectionClassName = slideCarouselItemLeftClassName;
   } else {
-    // Slide current carousel item to the right and remove active state
-    currentItem.classList.add(slideCarouselItemRightClassName);
-    currentItem.classList.remove(activeCarouselItemClassName);
-
-    // Slide next carousel item into view, set active state, and remove setnext class
-    prevItem.classList.add(activeCarouselItemClassName);
-    prevItem.classList.remove(carouselPositionPrevItemClassName);
-
-    let oldCurr = currentItem;
-    // After slide transition completes remove translateX(100%)
-    setTimeout(() => {
-      oldCurr.classList.remove(slideCarouselItemRightClassName);
-    }, 600);
-
-    updateCarouselItemPositions(newCarouselItemIdx);
-
-    currentItem.classList.add(activeCarouselItemClassName);
-    prevItem.classList.add(carouselPositionPrevItemClassName);
+    slideDirectionClassName = slideCarouselItemRightClassName;
   }
+
+  // Slide current slide away
+  currentItem.classList.add(slideDirectionClassName);
+  // TODO: Disable buttons on transition
+  let oldCurr = currentItem;
+  // After slide transition completes remove translateX(-100%) or translateX(100%)
+  // depending on slide direction
+  setTimeout(() => {
+    oldCurr.classList.remove(slideDirectionClassName);
+  }, 3600);
+
+  updateCarouselItemPositions(oldCarouselItemIdx, newCarouselItemIdx, slidingDirection);
 };
 
 const slideToNextImg = (currentCarouselItemIdx) => {
@@ -293,14 +325,22 @@ const slideToNextImg = (currentCarouselItemIdx) => {
     newCarouselItemIdx = currentCarouselItemIdx;
 
     updateDropdownActiveItem(oldCarouselItemIdx, newCarouselItemIdx);
-    updateCarouselImgViaSlide("left", oldCarouselItemIdx, newCarouselItemIdx);
+    updateCarouselImgViaSlide(
+      transitionDirections.LEFT,
+      oldCarouselItemIdx,
+      newCarouselItemIdx
+    );
   } else {
     oldCarouselItemIdx = currentCarouselItemIdx;
     currentCarouselItemIdx++;
     newCarouselItemIdx = currentCarouselItemIdx;
 
     updateDropdownActiveItem(oldCarouselItemIdx, newCarouselItemIdx);
-    updateCarouselImgViaSlide("left", oldCarouselItemIdx, newCarouselItemIdx);
+    updateCarouselImgViaSlide(
+      transitionDirections.LEFT,
+      oldCarouselItemIdx,
+      newCarouselItemIdx
+    );
   }
 
   return currentCarouselItemIdx;
@@ -308,20 +348,29 @@ const slideToNextImg = (currentCarouselItemIdx) => {
 
 const slideToPrevImg = (currentCarouselItemIdx) => {
   let oldCarouselItemIdx, newCarouselItemIdx;
+
   if (currentCarouselItemIdx === 0) {
     oldCarouselItemIdx = currentCarouselItemIdx;
     currentCarouselItemIdx = totalCarouselItems - 1;
     newCarouselItemIdx = currentCarouselItemIdx;
 
     updateDropdownActiveItem(oldCarouselItemIdx, newCarouselItemIdx);
-    updateCarouselImgViaSlide("right", oldCarouselItemIdx, newCarouselItemIdx);
+    updateCarouselImgViaSlide(
+      transitionDirections.RIGHT,
+      oldCarouselItemIdx,
+      newCarouselItemIdx
+    );
   } else {
     oldCarouselItemIdx = currentCarouselItemIdx;
     currentCarouselItemIdx--;
     newCarouselItemIdx = currentCarouselItemIdx;
 
     updateDropdownActiveItem(oldCarouselItemIdx, newCarouselItemIdx);
-    updateCarouselImgViaSlide("right", oldCarouselItemIdx, newCarouselItemIdx);
+    updateCarouselImgViaSlide(
+      transitionDirections.RIGHT,
+      oldCarouselItemIdx,
+      newCarouselItemIdx
+    );
   }
 
   return currentCarouselItemIdx;
