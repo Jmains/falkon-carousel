@@ -259,7 +259,7 @@ Begin Carousel Styles
   width: 75%;
   margin: 0 auto;
   height: 100%;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .carousel__item {
@@ -277,10 +277,18 @@ Begin Carousel Styles
 
 .carousel__item--active {
   opacity: 1;
-  /* transform: translateX(0); */
+  transform: translateX(0);
 }
 
 .carousel__item--next {
+  transform: translateX(-100%);
+}
+
+.carousel__item--setnext {
+  transform: translateX(100%);
+}
+
+.carousel__item--setprev {
   transform: translateX(-100%);
 }
 
