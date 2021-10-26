@@ -277,10 +277,18 @@ Begin Carousel Styles
 
 .carousel__item--active {
   opacity: 1;
-  /* transform: translateX(0); */
+  transform: translateX(0);
 }
 
 .carousel__item--next {
+  transform: translateX(-100%);
+}
+
+.carousel__item--setnext {
+  transform: translateX(100%);
+}
+
+.carousel__item--setprev {
   transform: translateX(-100%);
 }
 
