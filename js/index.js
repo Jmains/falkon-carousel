@@ -1,61 +1,61 @@
 const carouselImages = [
   {
-    url: "https://unsplash.it/800/800?image=22",
+    url: "public/images/blueJay.jpg",
     alt: "January",
     text: "January",
   },
   {
-    url: "https://unsplash.it/800/800?image=43",
+    url: "public/images/canary.jpg",
     alt: "February",
     text: "February",
   },
   {
-    url: "https://unsplash.it/800/800?image=54",
+    url: "public/images/hawk.jpg",
     alt: "March",
     text: "March",
   },
   {
-    url: "https://unsplash.it/800/800?image=75",
+    url: "public/images/hummingBird2.jpg",
     alt: "April",
     text: "April",
   },
   {
-    url: "https://unsplash.it/800/800?image=88",
+    url: "public/images/conure.jpg",
     alt: "May",
     text: "May",
   },
   {
-    url: "https://unsplash.it/800/800?image=99",
+    url: "public/images/cardinal.jpg",
     alt: "June",
     text: "June",
   },
   {
-    url: "https://unsplash.it/800/800?image=84",
+    url: "public/images/kingFisher.jpg",
     alt: "July",
     text: "July",
   },
   {
-    url: "https://unsplash.it/800/800?image=91",
+    url: "public/images/sparrow2.jpg",
     alt: "August",
     text: "August",
   },
   {
-    url: "https://unsplash.it/800/800?image=92",
+    url: "public/images/redParakeet.jpg",
     alt: "September",
     text: "September",
   },
   {
-    url: "https://unsplash.it/800/800?image=83",
+    url: "public/images/toucan.jpg",
     alt: "October",
     text: "October",
   },
   {
-    url: "https://unsplash.it/800/800?image=79",
+    url: "public/images/blueJay.jpg",
     alt: "November",
     text: "November",
   },
   {
-    url: "https://unsplash.it/800/800?image=14",
+    url: "public/images/hummingBird1.jpg",
     alt: "December",
     text: "December",
   },
@@ -197,7 +197,7 @@ const disableDropdownItemBtns = (isDisabled = false) => {
   }
 };
 
-const resetWindowStyles = (prevItem, currItem, nextItem) => {
+const removeWindowPositioningStyles = (prevItem, currItem, nextItem) => {
   if (totalCarouselItems === 2) {
     if (prevItem == null) {
       nextItem.classList.remove(positionNextCarouselItemClassName);
@@ -218,7 +218,7 @@ const resetWindowStyles = (prevItem, currItem, nextItem) => {
   }
 };
 
-const setWindowStyles = (prevItem, currItem, nextItem) => {
+const addWindowPositioningStyles = (prevItem, currItem, nextItem) => {
   if (totalCarouselItems == 2) {
     if (prevItem == null) {
       nextItem.classList.add(positionNextCarouselItemClassName);
@@ -254,7 +254,7 @@ const setCarouselWindow = (carouselItemIdx) => {
       nextItem = carouselItems[carouselItemIdx].nextElementSibling;
     }
   } else {
-    // If only two items in Carousel
+    // If only two items exist in Carousel
     if (carouselItemIdx === 0) {
       prevItem = null;
       currItem = carouselItems[carouselItemIdx];
@@ -271,10 +271,18 @@ const setCarouselWindow = (carouselItemIdx) => {
 
 const updateCarouselWindow = (oldCarouselItemIdx, newCarouselItemIdx) => {
   let currentWindow = setCarouselWindow(oldCarouselItemIdx);
-  resetWindowStyles(currentWindow.prevItem, currentWindow.currItem, currentWindow.nextItem);
+  removeWindowPositioningStyles(
+    currentWindow.prevItem,
+    currentWindow.currItem,
+    currentWindow.nextItem
+  );
 
   currentWindow = setCarouselWindow(newCarouselItemIdx);
-  setWindowStyles(currentWindow.prevItem, currentWindow.currItem, currentWindow.nextItem);
+  addWindowPositioningStyles(
+    currentWindow.prevItem,
+    currentWindow.currItem,
+    currentWindow.nextItem
+  );
 
   disableNextAndPrevBtns(true);
   disableDropdownItemBtns(true);
@@ -352,14 +360,13 @@ for (let i = 0; i < dropdownItemBtns.length; i++) {
 }
 
 const initializeCarousel = () => {
+  if (totalCarouselItems > 0) {
+    updateDropdownActiveItem(0, 0);
+  }
+
   if (totalCarouselItems === 1) {
     carouselItems[currentCarouselItemIdx].classList.add(activeCarouselItemClassName);
     return;
-  }
-
-  // If there are carousel items then set the active state on first dropdown item
-  if (totalCarouselItems > 0) {
-    updateDropdownActiveItem(0, 0);
   }
   // Set initial state of the carousel items
   updateCarouselWindow(0, 0);
