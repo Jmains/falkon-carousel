@@ -15,7 +15,7 @@ const carouselImages = [
     text: "March",
   },
   {
-    url: "public/images/hummingBird2.jpg",
+    url: "public/images/hummingBird.jpg",
     alt: "April",
     text: "April",
   },
@@ -50,12 +50,12 @@ const carouselImages = [
     text: "October",
   },
   {
-    url: "public/images/blueJay.jpg",
+    url: "public/images/robin.jpg",
     alt: "November",
     text: "November",
   },
   {
-    url: "public/images/hummingBird1.jpg",
+    url: "public/images/falcon.jpg",
     alt: "December",
     text: "December",
   },
