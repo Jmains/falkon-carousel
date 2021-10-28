@@ -162,7 +162,6 @@ document.addEventListener("keydown", handleDropdownEscape);
  *********** Start Carousel Functionality ***********
  */
 
-let prevItem, currItem, nextItem;
 let currentCarouselItemIdx = 0;
 
 // Carousel DOM elements
@@ -172,10 +171,8 @@ const carouselPrevBtn = document.getElementById("carouselPreviousBtn");
 
 // Carousel ClassNames
 const activeCarouselItemClassName = "carousel__item--active";
-const slideCarouselItemLeftClassName = "carousel__item--next";
-const slideCarouselItemRightClassName = "carousel__item--prev";
-const carouselPositionNextItemClassName = "carousel__item--setnext";
-const carouselPositionPrevItemClassName = "carousel__item--setprev";
+const positionNextCarouselItemClassName = "carousel__item--setnext";
+const positionPrevCarouselItemClassName = "carousel__item--setprev";
 
 // Dropdown ClassNames
 const activeDropdownItemBtnClassName = "nav__dropdown-item-btn--active";
@@ -200,38 +197,84 @@ const disableDropdownItemBtns = (isDisabled = false) => {
   }
 };
 
-const updateCarouselItemPositions = (currCarouselItemIdx) => {
-  // Remove previous positioning styles
-  if (
-    prevItem?.classList.contains(carouselPositionPrevItemClassName) &&
-    currItem?.classList.contains(activeCarouselItemClassName) &&
-    nextItem?.classList.contains(carouselPositionNextItemClassName)
-  ) {
-    prevItem.classList.remove(carouselPositionPrevItemClassName);
+const resetWindowStyles = (prevItem, currItem, nextItem) => {
+  if (totalCarouselItems === 2) {
+    if (prevItem == null) {
+      nextItem.classList.remove(positionNextCarouselItemClassName);
+    } else {
+      prevItem.classList.remove(positionPrevCarouselItemClassName);
+    }
     currItem.classList.remove(activeCarouselItemClassName);
-    nextItem.classList.remove(carouselPositionNextItemClassName);
   }
 
-  const firstCarouselItem = currCarouselItemIdx === 0;
-  const lastCarouselItem = currCarouselItemIdx === totalCarouselItems - 1;
+  if (
+    prevItem?.classList.contains(positionPrevCarouselItemClassName) &&
+    currItem?.classList.contains(activeCarouselItemClassName) &&
+    nextItem?.classList.contains(positionNextCarouselItemClassName)
+  ) {
+    prevItem.classList.remove(positionPrevCarouselItemClassName);
+    currItem.classList.remove(activeCarouselItemClassName);
+    nextItem.classList.remove(positionNextCarouselItemClassName);
+  }
+};
 
-  if (firstCarouselItem) {
-    prevItem = carouselItems[totalCarouselItems - 1];
-    currItem = carouselItems[currCarouselItemIdx];
-    nextItem = carouselItems[currCarouselItemIdx].nextElementSibling;
-  } else if (lastCarouselItem) {
-    prevItem = carouselItems[currCarouselItemIdx].previousElementSibling;
-    currItem = carouselItems[currCarouselItemIdx];
-    nextItem = carouselItems[0];
+const setWindowStyles = (prevItem, currItem, nextItem) => {
+  if (totalCarouselItems == 2) {
+    if (prevItem == null) {
+      nextItem.classList.add(positionNextCarouselItemClassName);
+    } else {
+      prevItem.classList.add(positionPrevCarouselItemClassName);
+    }
   } else {
-    prevItem = carouselItems[currCarouselItemIdx].previousElementSibling;
-    currItem = carouselItems[currCarouselItemIdx];
-    nextItem = carouselItems[currCarouselItemIdx].nextElementSibling;
+    prevItem.classList.add(positionPrevCarouselItemClassName);
+    nextItem.classList.add(positionNextCarouselItemClassName);
   }
 
-  prevItem.classList.add(carouselPositionPrevItemClassName);
   currItem.classList.add(activeCarouselItemClassName);
-  nextItem.classList.add(carouselPositionNextItemClassName);
+};
+
+const setCarouselWindow = (carouselItemIdx) => {
+  let prevItem, currItem, nextItem;
+
+  if (totalCarouselItems !== 2) {
+    const isFirstCarouselItem = carouselItemIdx === 0;
+    const isLastCarouselItem = carouselItemIdx === totalCarouselItems - 1;
+
+    if (isFirstCarouselItem) {
+      prevItem = carouselItems[totalCarouselItems - 1];
+      currItem = carouselItems[carouselItemIdx];
+      nextItem = carouselItems[carouselItemIdx].nextElementSibling;
+    } else if (isLastCarouselItem) {
+      prevItem = carouselItems[carouselItemIdx].previousElementSibling;
+      currItem = carouselItems[carouselItemIdx];
+      nextItem = carouselItems[0];
+    } else {
+      prevItem = carouselItems[carouselItemIdx].previousElementSibling;
+      currItem = carouselItems[carouselItemIdx];
+      nextItem = carouselItems[carouselItemIdx].nextElementSibling;
+    }
+  } else {
+    // If only two items in Carousel
+    if (carouselItemIdx === 0) {
+      prevItem = null;
+      currItem = carouselItems[carouselItemIdx];
+      nextItem = carouselItems[carouselItemIdx].nextElementSibling;
+    } else {
+      prevItem = carouselItems[carouselItemIdx].previousElementSibling;
+      currItem = carouselItems[carouselItemIdx];
+      nextItem = null;
+    }
+  }
+
+  return { prevItem, currItem, nextItem };
+};
+
+const updateCarouselWindow = (oldCarouselItemIdx, newCarouselItemIdx) => {
+  let currentWindow = setCarouselWindow(oldCarouselItemIdx);
+  resetWindowStyles(currentWindow.prevItem, currentWindow.currItem, currentWindow.nextItem);
+
+  currentWindow = setCarouselWindow(newCarouselItemIdx);
+  setWindowStyles(currentWindow.prevItem, currentWindow.currItem, currentWindow.nextItem);
 
   disableNextAndPrevBtns(true);
   disableDropdownItemBtns(true);
@@ -239,27 +282,15 @@ const updateCarouselItemPositions = (currCarouselItemIdx) => {
   setTimeout(() => {
     disableNextAndPrevBtns(false);
     disableDropdownItemBtns(false);
-  }, 400);
-
-  return currCarouselItemIdx;
+  }, 600);
 };
-
-// Set initial state of the carousel items
-currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
-
-// If there are slides then set the active state on first slide
-if (totalCarouselItems > 0) {
-  dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
-}
 
 const updateDropdownActiveItem = (oldCarouselItemIdx, currentCarouselItemIdx) => {
   dropdownItemBtns[oldCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
   dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
-
-  return currentCarouselItemIdx;
 };
 
-const setNextImgIdx = (currentCarouselItemIdx) => {
+const incrementCarouselItemIdx = (currentCarouselItemIdx) => {
   if (currentCarouselItemIdx === totalCarouselItems - 1) {
     currentCarouselItemIdx = 0;
   } else {
@@ -268,7 +299,7 @@ const setNextImgIdx = (currentCarouselItemIdx) => {
   return currentCarouselItemIdx;
 };
 
-const setPrevImgIdx = (currentCarouselItemIdx) => {
+const decrementCarouselItemIdx = (currentCarouselItemIdx) => {
   if (currentCarouselItemIdx === 0) {
     currentCarouselItemIdx = totalCarouselItems - 1;
   } else {
@@ -280,39 +311,28 @@ const setPrevImgIdx = (currentCarouselItemIdx) => {
 // Start onClick event handlers
 const handleCarouselNextBtnClick = () => {
   const oldCarouselItemIdx = currentCarouselItemIdx;
+  currentCarouselItemIdx = incrementCarouselItemIdx(currentCarouselItemIdx);
 
-  currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
-  currentCarouselItemIdx = setNextImgIdx(currentCarouselItemIdx);
-  currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
-
-  currentCarouselItemIdx = updateDropdownActiveItem(
-    oldCarouselItemIdx,
-    currentCarouselItemIdx
-  );
+  updateCarouselWindow(oldCarouselItemIdx, currentCarouselItemIdx);
+  updateDropdownActiveItem(oldCarouselItemIdx, currentCarouselItemIdx);
 };
 
 const handleCarouselPrevBtnClick = () => {
   const oldCarouselItemIdx = currentCarouselItemIdx;
+  currentCarouselItemIdx = decrementCarouselItemIdx(currentCarouselItemIdx);
 
-  currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
-  currentCarouselItemIdx = setPrevImgIdx(currentCarouselItemIdx);
-  currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
-
-  currentCarouselItemIdx = updateDropdownActiveItem(
-    oldCarouselItemIdx,
-    currentCarouselItemIdx
-  );
+  updateCarouselWindow(oldCarouselItemIdx, currentCarouselItemIdx);
+  updateDropdownActiveItem(oldCarouselItemIdx, currentCarouselItemIdx);
 };
 
 const handleDropdownItemClick = (dropdownItemIdx) => {
   const oldCarouselItemIdx = currentCarouselItemIdx;
+  currentCarouselItemIdx = dropdownItemIdx;
 
-  currentCarouselItemIdx = updateCarouselItemPositions(dropdownItemIdx);
+  if (oldCarouselItemIdx === currentCarouselItemIdx) return;
 
-  currentCarouselItemIdx = updateDropdownActiveItem(
-    oldCarouselItemIdx,
-    currentCarouselItemIdx
-  );
+  updateCarouselWindow(oldCarouselItemIdx, currentCarouselItemIdx);
+  updateDropdownActiveItem(oldCarouselItemIdx, currentCarouselItemIdx);
 };
 // End onClick event handlers
 
@@ -330,4 +350,299 @@ for (let i = 0; i < dropdownItemBtns.length; i++) {
     handleDropdownItemClick(i);
   });
 }
+
+const initializeCarousel = () => {
+  if (totalCarouselItems === 1) {
+    carouselItems[currentCarouselItemIdx].classList.add(activeCarouselItemClassName);
+    return;
+  }
+
+  // If there are carousel items then set the active state on first dropdown item
+  if (totalCarouselItems > 0) {
+    updateDropdownActiveItem(0, 0);
+  }
+  // Set initial state of the carousel items
+  updateCarouselWindow(0, 0);
+};
+
+initializeCarousel();
 // End inject eventListeners
+
+// class Carousel {
+//   constructor(carouselItems, carouselNextBtn, carouselPrevBtn, dropdownItemBtns) {
+//     this.currentCarouselItemIdx = 0;
+
+//     this.prevItem = null;
+//     this.currItem = null;
+//     this.nextItem = null;
+
+//     // Carousel ClassNames
+//     this.carouselItems = carouselItems;
+//     this.carouselNextBtn = carouselNextBtn;
+//     this.carouselPrevBtn = carouselPrevBtn;
+
+//     // Dropdown ClassNames
+//     this.activeCarouselItemClassName = "carousel__item--active";
+//     this.slideCarouselItemLeftClassName = "carousel__item--next";
+//     this.slideCarouselItemRightClassName = "carousel__item--prev";
+//     this.carouselPositionNextItemClassName = "carousel__item--setnext";
+//     this.carouselPositionPrevItemClassName = "carousel__item--setprev";
+
+//     this.activeDropdownItemBtnClassName = "nav__dropdown-item-btn--active";
+
+//     // Dropdown DOM element
+//     this.dropdownItemBtns = dropdownItemBtns;
+
+//     this.totalCarouselItems = carouselItems.length;
+
+//     // this.options = options;
+
+//     this.setCurrentCarouselItemIdx(
+//       this.updateCarouselItemPositions(this.getCurrentCarouselItemIdx())
+//     );
+
+//     if (this.getTotalCarouselItems() > 0) {
+//       this.dropdownItemBtns[this.getCurrentCarouselItemIdx()].classList.add(
+//         this.getActiveDropdownItemBtnClassName()
+//       );
+//     }
+
+//     this.setEventListeners();
+//   }
+
+//   getCarouselItems() {
+//     return this.carouselItems;
+//   }
+
+//   getActiveCarouselItemClassName() {
+//     return this.activeCarouselItemClassName;
+//   }
+
+//   getSlideCarouselItemLeftClassName() {
+//     return this.slideCarouselItemLeftClassName;
+//   }
+
+//   getSlideCarouselItemRightClassName() {
+//     return this.slideCarouselItemRightClassName;
+//   }
+
+//   getCarouselPositionNextItemClassName() {
+//     return this.carouselPositionNextItemClassName;
+//   }
+
+//   getCarouselPositionPrevItemClassName() {
+//     return this.carouselPositionPrevItemClassName;
+//   }
+
+//   getCurrentCarouselItemIdx() {
+//     return this.currentCarouselItemIdx;
+//   }
+
+//   setCurrentCarouselItemIdx(newIdx) {
+//     this.currentCarouselItemIdx = newIdx;
+//   }
+
+//   getTotalCarouselItems() {
+//     return this.totalCarouselItems;
+//   }
+
+//   getPrevItem() {
+//     return this.prevItem;
+//   }
+
+//   setPrevItem(newItem) {
+//     this.prevItem = newItem;
+//   }
+
+//   getCurrItem() {
+//     return this.currItem;
+//   }
+
+//   setCurrItem(newItem) {
+//     this.currItem = newItem;
+//   }
+
+//   getNextItem() {
+//     return this.nextItem;
+//   }
+
+//   setNextItem(newItem) {
+//     this.nextItem = newItem;
+//   }
+
+//   getDropdownItemBtns() {
+//     return this.dropdownItemBtns;
+//   }
+
+//   getActiveDropdownItemBtnClassName() {
+//     return this.activeDropdownItemBtnClassName;
+//   }
+
+//   getCarouselNextBtn() {
+//     return this.carouselNextBtn;
+//   }
+
+//   getCarouselPrevBtn() {
+//     return this.carouselPrevBtn;
+//   }
+
+//   getDropdownItemBtns() {
+//     return this.dropdownItemBtns;
+//   }
+
+//   updateCarouselItemPositions(currCarouselItemIdx) {
+//     // Remove previous positioning styles
+//     if (
+//       this.getPrevItem()?.classList.contains(this.getCarouselPositionPrevItemClassName()) &&
+//       this.getCurrItem()?.classList.contains(this.getActiveCarouselItemClassName()) &&
+//       this.getNextItem()?.classList.contains(this.getCarouselPositionNextItemClassName())
+//     ) {
+//       this.getPrevItem().classList.remove(this.getCarouselPositionPrevItemClassName());
+//       this.getCurrItem().classList.remove(this.getActiveCarouselItemClassName());
+//       this.getNextItem().classList.remove(this.getCarouselPositionNextItemClassName());
+//     }
+
+//     const firstCarouselItem = this.getCurrentCarouselItemIdx() === 0;
+//     const lastCarouselItem =
+//       this.getCurrentCarouselItemIdx() === this.getTotalCarouselItems() - 1;
+
+//     if (firstCarouselItem) {
+//       this.setPrevItem(this.getCarouselItems()[this.getTotalCarouselItems() - 1]);
+//       this.setCurrItem(this.getCarouselItems()[currCarouselItemIdx]);
+//       this.setNextItem(this.getCarouselItems()[currCarouselItemIdx].nextElementSibling);
+//     } else if (lastCarouselItem) {
+//       this.setPrevItem(this.getCarouselItems()[currCarouselItemIdx].previousElementSibling);
+//       this.setCurrItem(this.getCarouselItems()[currCarouselItemIdx]);
+//       this.setNextItem(this.getCarouselItems()[0]);
+//     } else {
+//       this.setPrevItem(this.getCarouselItems()[currCarouselItemIdx].previousElementSibling);
+//       this.setCurrItem(this.getCarouselItems()[currCarouselItemIdx]);
+//       this.setNextItem(this.getCarouselItems()[currCarouselItemIdx].nextElementSibling);
+//     }
+
+//     this.getPrevItem().classList.add(this.getCarouselPositionPrevItemClassName());
+//     this.getCurrItem().classList.add(this.getActiveCarouselItemClassName());
+//     this.getNextItem().classList.add(this.getCarouselPositionNextItemClassName());
+
+//     this.disableNextAndPrevBtns(true);
+//     this.disableDropdownItemBtns(true);
+
+//     setTimeout(() => {
+//       this.disableNextAndPrevBtns(false);
+//       this.disableDropdownItemBtns(false);
+//     }, 750);
+
+//     return currCarouselItemIdx;
+//   }
+
+//   updateDropdownActiveItem(oldCarouselItemIdx, currentCarouselItemIdx) {
+//     this.getDropdownItemBtns()[oldCarouselItemIdx].classList.remove(
+//       this.getActiveDropdownItemBtnClassName()
+//     );
+
+//     this.getDropdownItemBtns()[currentCarouselItemIdx].classList.add(
+//       this.getActiveDropdownItemBtnClassName()
+//     );
+
+//     return currentCarouselItemIdx;
+//   }
+
+//   setNextImgIdx(currentCarouselItemIdx) {
+//     if (currentCarouselItemIdx === this.getTotalCarouselItems() - 1) {
+//       currentCarouselItemIdx = 0;
+//     } else {
+//       currentCarouselItemIdx++;
+//     }
+//     return currentCarouselItemIdx;
+//   }
+
+//   setPrevImgIdx(currentCarouselItemIdx) {
+//     if (currentCarouselItemIdx === 0) {
+//       currentCarouselItemIdx = this.getTotalCarouselItems() - 1;
+//     } else {
+//       currentCarouselItemIdx--;
+//     }
+//     return currentCarouselItemIdx;
+//   }
+
+//   handleCarouselNextBtnClick() {
+//     const oldCarouselItemIdx = this.getCurrentCarouselItemIdx();
+
+//     this.setCurrentCarouselItemIdx(
+//       this.updateCarouselItemPositions(this.getCurrentCarouselItemIdx())
+//     );
+//     this.setCurrentCarouselItemIdx(this.setNextImgIdx(this.getCurrentCarouselItemIdx()));
+//     this.setCurrentCarouselItemIdx(
+//       this.updateCarouselItemPositions(this.getCurrentCarouselItemIdx())
+//     );
+
+//     this.setCurrentCarouselItemIdx(
+//       this.updateDropdownActiveItem(oldCarouselItemIdx, this.getCurrentCarouselItemIdx())
+//     );
+//   }
+
+//   handleCarouselPrevBtnClick() {
+//     const oldCarouselItemIdx = this.currentCarouselItemIdx;
+
+//     this.setCurrentCarouselItemIdx(
+//       this.updateCarouselItemPositions(this.getCurrentCarouselItemIdx())
+//     );
+//     this.setCurrentCarouselItemIdx(this.setPrevImgIdx(this.getCurrentCarouselItemIdx()));
+//     this.setCurrentCarouselItemIdx(
+//       this.updateCarouselItemPositions(this.getCurrentCarouselItemIdx())
+//     );
+
+//     this.setCurrentCarouselItemIdx(
+//       this.updateDropdownActiveItem(oldCarouselItemIdx, this.getCurrentCarouselItemIdx())
+//     );
+//   }
+
+//   handleDropdownItemClick(dropdownItemIdx) {
+//     const oldCarouselItemIdx = this.getCurrentCarouselItemIdx();
+//     this.setCurrentCarouselItemIdx(dropdownItemIdx);
+
+//     if (this.getCurrentCarouselItemIdx() === oldCarouselItemIdx) return;
+
+//     this.setCurrentCarouselItemIdx(this.updateCarouselItemPositions(dropdownItemIdx));
+
+//     this.setCurrentCarouselItemIdx(
+//       this.updateDropdownActiveItem(oldCarouselItemIdx, this.getCurrentCarouselItemIdx())
+//     );
+//   }
+
+//   setEventListeners() {
+//     this.getCarouselNextBtn().addEventListener("click", () => {
+//       this.handleCarouselNextBtnClick();
+//     });
+
+//     this.getCarouselPrevBtn().addEventListener("click", () => {
+//       this.handleCarouselPrevBtnClick();
+//     });
+
+//     for (let i = 0; i < this.dropdownItemBtns.length; i++) {
+//       this.getDropdownItemBtns()[i].addEventListener("click", () => {
+//         this.handleDropdownItemClick(i);
+//       });
+//     }
+//   }
+
+//   disableNextAndPrevBtns(isDisabled = false) {
+//     this.carouselNextBtn.disabled = isDisabled;
+//     this.carouselNextBtn.ariaDisabled = isDisabled;
+//     this.carouselPrevBtn.disabled = isDisabled;
+//     this.carouselPrevBtn.ariaDisabled = isDisabled;
+//   }
+
+//   disableDropdownItemBtns(isDisabled = false) {
+//     for (const btn of this.dropdownItemBtns) {
+//       btn.disabled = isDisabled;
+//     }
+//   }
+// }
+
+// const carousel = new Carousel(
+//   document.getElementsByClassName("carousel__item"),
+//   document.getElementById("carouselNextBtn"),
+//   document.getElementById("carouselPreviousBtn"),
+//   document.getElementsByClassName("nav__dropdown-item-btn")
+// );
