@@ -271,8 +271,8 @@ Begin Carousel Styles
   opacity: 0;
 
   transition-property: transform, opacity;
-  transition-duration: 400ms;
-  transition-timing-function: ease-in-out;
+  transition-duration: 600ms;
+  transition-timing-function: cubic-bezier(0.49, 0.11, 0.33, 0.94);
 }
 
 .carousel__item--active {
@@ -280,15 +280,7 @@ Begin Carousel Styles
   transform: translateX(0);
 }
 
-.carousel__item--next {
-  transform: translateX(-100%);
-}
-
 .carousel__item--setnext {
-  transform: translateX(100%);
-}
-
-.carousel__item--prev {
   transform: translateX(100%);
 }
 

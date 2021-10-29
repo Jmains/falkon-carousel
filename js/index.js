@@ -1,61 +1,61 @@
 const carouselImages = [
   {
-    url: "https://unsplash.it/800/800?image=22",
+    url: "public/images/blueJay.jpg",
     alt: "January",
     text: "January",
   },
   {
-    url: "https://unsplash.it/800/800?image=43",
+    url: "public/images/canary.jpg",
     alt: "February",
     text: "February",
   },
   {
-    url: "https://unsplash.it/800/800?image=54",
+    url: "public/images/hawk.jpg",
     alt: "March",
     text: "March",
   },
   {
-    url: "https://unsplash.it/800/800?image=75",
+    url: "public/images/hummingBird.jpg",
     alt: "April",
     text: "April",
   },
   {
-    url: "https://unsplash.it/800/800?image=88",
+    url: "public/images/conure.jpg",
     alt: "May",
     text: "May",
   },
   {
-    url: "https://unsplash.it/800/800?image=99",
+    url: "public/images/cardinal.jpg",
     alt: "June",
     text: "June",
   },
   {
-    url: "https://unsplash.it/800/800?image=84",
+    url: "public/images/kingFisher.jpg",
     alt: "July",
     text: "July",
   },
   {
-    url: "https://unsplash.it/800/800?image=91",
+    url: "public/images/sparrow2.jpg",
     alt: "August",
     text: "August",
   },
   {
-    url: "https://unsplash.it/800/800?image=92",
+    url: "public/images/redParakeet.jpg",
     alt: "September",
     text: "September",
   },
   {
-    url: "https://unsplash.it/800/800?image=83",
+    url: "public/images/toucan.jpg",
     alt: "October",
     text: "October",
   },
   {
-    url: "https://unsplash.it/800/800?image=79",
+    url: "public/images/robin.jpg",
     alt: "November",
     text: "November",
   },
   {
-    url: "https://unsplash.it/800/800?image=14",
+    url: "public/images/falcon.jpg",
     alt: "December",
     text: "December",
   },
@@ -162,30 +162,26 @@ document.addEventListener("keydown", handleDropdownEscape);
  *********** Start Carousel Functionality ***********
  */
 
-let prevItem, currItem, nextItem;
 let currentCarouselItemIdx = 0;
 
 // Carousel DOM elements
-const carouselItems = document.getElementsByClassName("carousel__item");
-const carouselNextBtn = document.getElementById("carouselNextBtn");
-const carouselPrevBtn = document.getElementById("carouselPreviousBtn");
+const carousel = document.getElementById("carousel");
+const carouselItems = carousel.getElementsByClassName("carousel__item");
+const carouselNextBtn = carousel.querySelector("#carouselNextBtn");
+const carouselPrevBtn = carousel.querySelector("#carouselPreviousBtn");
 
 // Carousel ClassNames
 const activeCarouselItemClassName = "carousel__item--active";
-const slideCarouselItemLeftClassName = "carousel__item--next";
-const slideCarouselItemRightClassName = "carousel__item--prev";
-const carouselPositionNextItemClassName = "carousel__item--setnext";
-const carouselPositionPrevItemClassName = "carousel__item--setprev";
+const positionNextCarouselItemClassName = "carousel__item--setnext";
+const positionPrevCarouselItemClassName = "carousel__item--setprev";
 
 // Dropdown ClassNames
 const activeDropdownItemBtnClassName = "nav__dropdown-item-btn--active";
 
 // Dropdown DOM element
-const dropdownItemBtns = document.getElementsByClassName("nav__dropdown-item-btn");
+const dropdownItemBtns = dropdown.getElementsByClassName("nav__dropdown-item-btn");
 
 const totalCarouselItems = carouselItems.length;
-
-// TODO: Maybe refactor updateCarouselItemPositions to return carousel items state instead of global being a global variable
 
 const disableNextAndPrevBtns = (isDisabled = false) => {
   carouselNextBtn.disabled = isDisabled;
@@ -200,38 +196,92 @@ const disableDropdownItemBtns = (isDisabled = false) => {
   }
 };
 
-const updateCarouselItemPositions = (currCarouselItemIdx) => {
-  // Remove previous positioning styles
-  if (
-    prevItem?.classList.contains(carouselPositionPrevItemClassName) &&
-    currItem?.classList.contains(activeCarouselItemClassName) &&
-    nextItem?.classList.contains(carouselPositionNextItemClassName)
-  ) {
-    prevItem.classList.remove(carouselPositionPrevItemClassName);
+const removeWindowPositioningStyles = (prevItem, currItem, nextItem) => {
+  if (totalCarouselItems === 2) {
+    if (prevItem == null) {
+      nextItem.classList.remove(positionNextCarouselItemClassName);
+    } else {
+      prevItem.classList.remove(positionPrevCarouselItemClassName);
+    }
     currItem.classList.remove(activeCarouselItemClassName);
-    nextItem.classList.remove(carouselPositionNextItemClassName);
   }
 
-  const firstCarouselItem = currCarouselItemIdx === 0;
-  const lastCarouselItem = currCarouselItemIdx === totalCarouselItems - 1;
+  if (
+    prevItem?.classList.contains(positionPrevCarouselItemClassName) &&
+    currItem?.classList.contains(activeCarouselItemClassName) &&
+    nextItem?.classList.contains(positionNextCarouselItemClassName)
+  ) {
+    prevItem.classList.remove(positionPrevCarouselItemClassName);
+    currItem.classList.remove(activeCarouselItemClassName);
+    nextItem.classList.remove(positionNextCarouselItemClassName);
+  }
+};
 
-  if (firstCarouselItem) {
-    prevItem = carouselItems[totalCarouselItems - 1];
-    currItem = carouselItems[currCarouselItemIdx];
-    nextItem = carouselItems[currCarouselItemIdx].nextElementSibling;
-  } else if (lastCarouselItem) {
-    prevItem = carouselItems[currCarouselItemIdx].previousElementSibling;
-    currItem = carouselItems[currCarouselItemIdx];
-    nextItem = carouselItems[0];
+const addWindowPositioningStyles = (prevItem, currItem, nextItem) => {
+  if (totalCarouselItems == 2) {
+    if (prevItem == null) {
+      nextItem.classList.add(positionNextCarouselItemClassName);
+    } else {
+      prevItem.classList.add(positionPrevCarouselItemClassName);
+    }
   } else {
-    prevItem = carouselItems[currCarouselItemIdx].previousElementSibling;
-    currItem = carouselItems[currCarouselItemIdx];
-    nextItem = carouselItems[currCarouselItemIdx].nextElementSibling;
+    prevItem.classList.add(positionPrevCarouselItemClassName);
+    nextItem.classList.add(positionNextCarouselItemClassName);
   }
 
-  prevItem.classList.add(carouselPositionPrevItemClassName);
   currItem.classList.add(activeCarouselItemClassName);
-  nextItem.classList.add(carouselPositionNextItemClassName);
+};
+
+const setCarouselWindow = (carouselItemIdx) => {
+  let prevItem, currItem, nextItem;
+
+  if (totalCarouselItems !== 2) {
+    const isFirstCarouselItem = carouselItemIdx === 0;
+    const isLastCarouselItem = carouselItemIdx === totalCarouselItems - 1;
+
+    if (isFirstCarouselItem) {
+      prevItem = carouselItems[totalCarouselItems - 1];
+      currItem = carouselItems[carouselItemIdx];
+      nextItem = carouselItems[carouselItemIdx].nextElementSibling;
+    } else if (isLastCarouselItem) {
+      prevItem = carouselItems[carouselItemIdx].previousElementSibling;
+      currItem = carouselItems[carouselItemIdx];
+      nextItem = carouselItems[0];
+    } else {
+      prevItem = carouselItems[carouselItemIdx].previousElementSibling;
+      currItem = carouselItems[carouselItemIdx];
+      nextItem = carouselItems[carouselItemIdx].nextElementSibling;
+    }
+  } else {
+    // If only two items exist in Carousel
+    if (carouselItemIdx === 0) {
+      prevItem = null;
+      currItem = carouselItems[carouselItemIdx];
+      nextItem = carouselItems[carouselItemIdx].nextElementSibling;
+    } else {
+      prevItem = carouselItems[carouselItemIdx].previousElementSibling;
+      currItem = carouselItems[carouselItemIdx];
+      nextItem = null;
+    }
+  }
+
+  return { prevItem, currItem, nextItem };
+};
+
+const updateCarouselWindow = (oldCarouselItemIdx, newCarouselItemIdx) => {
+  let currentWindow = setCarouselWindow(oldCarouselItemIdx);
+  removeWindowPositioningStyles(
+    currentWindow.prevItem,
+    currentWindow.currItem,
+    currentWindow.nextItem
+  );
+
+  currentWindow = setCarouselWindow(newCarouselItemIdx);
+  addWindowPositioningStyles(
+    currentWindow.prevItem,
+    currentWindow.currItem,
+    currentWindow.nextItem
+  );
 
   disableNextAndPrevBtns(true);
   disableDropdownItemBtns(true);
@@ -239,27 +289,15 @@ const updateCarouselItemPositions = (currCarouselItemIdx) => {
   setTimeout(() => {
     disableNextAndPrevBtns(false);
     disableDropdownItemBtns(false);
-  }, 400);
-
-  return currCarouselItemIdx;
+  }, 600);
 };
-
-// Set initial state of the carousel items
-currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
-
-// If there are slides then set the active state on first slide
-if (totalCarouselItems > 0) {
-  dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
-}
 
 const updateDropdownActiveItem = (oldCarouselItemIdx, currentCarouselItemIdx) => {
   dropdownItemBtns[oldCarouselItemIdx].classList.remove(activeDropdownItemBtnClassName);
   dropdownItemBtns[currentCarouselItemIdx].classList.add(activeDropdownItemBtnClassName);
-
-  return currentCarouselItemIdx;
 };
 
-const setNextImgIdx = (currentCarouselItemIdx) => {
+const incrementCarouselItemIdx = (currentCarouselItemIdx) => {
   if (currentCarouselItemIdx === totalCarouselItems - 1) {
     currentCarouselItemIdx = 0;
   } else {
@@ -268,7 +306,7 @@ const setNextImgIdx = (currentCarouselItemIdx) => {
   return currentCarouselItemIdx;
 };
 
-const setPrevImgIdx = (currentCarouselItemIdx) => {
+const decrementCarouselItemIdx = (currentCarouselItemIdx) => {
   if (currentCarouselItemIdx === 0) {
     currentCarouselItemIdx = totalCarouselItems - 1;
   } else {
@@ -280,39 +318,28 @@ const setPrevImgIdx = (currentCarouselItemIdx) => {
 // Start onClick event handlers
 const handleCarouselNextBtnClick = () => {
   const oldCarouselItemIdx = currentCarouselItemIdx;
+  currentCarouselItemIdx = incrementCarouselItemIdx(currentCarouselItemIdx);
 
-  currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
-  currentCarouselItemIdx = setNextImgIdx(currentCarouselItemIdx);
-  currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
-
-  currentCarouselItemIdx = updateDropdownActiveItem(
-    oldCarouselItemIdx,
-    currentCarouselItemIdx
-  );
+  updateCarouselWindow(oldCarouselItemIdx, currentCarouselItemIdx);
+  updateDropdownActiveItem(oldCarouselItemIdx, currentCarouselItemIdx);
 };
 
 const handleCarouselPrevBtnClick = () => {
   const oldCarouselItemIdx = currentCarouselItemIdx;
+  currentCarouselItemIdx = decrementCarouselItemIdx(currentCarouselItemIdx);
 
-  currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
-  currentCarouselItemIdx = setPrevImgIdx(currentCarouselItemIdx);
-  currentCarouselItemIdx = updateCarouselItemPositions(currentCarouselItemIdx);
-
-  currentCarouselItemIdx = updateDropdownActiveItem(
-    oldCarouselItemIdx,
-    currentCarouselItemIdx
-  );
+  updateCarouselWindow(oldCarouselItemIdx, currentCarouselItemIdx);
+  updateDropdownActiveItem(oldCarouselItemIdx, currentCarouselItemIdx);
 };
 
 const handleDropdownItemClick = (dropdownItemIdx) => {
   const oldCarouselItemIdx = currentCarouselItemIdx;
+  currentCarouselItemIdx = dropdownItemIdx;
 
-  currentCarouselItemIdx = updateCarouselItemPositions(dropdownItemIdx);
+  if (oldCarouselItemIdx === currentCarouselItemIdx) return;
 
-  currentCarouselItemIdx = updateDropdownActiveItem(
-    oldCarouselItemIdx,
-    currentCarouselItemIdx
-  );
+  updateCarouselWindow(oldCarouselItemIdx, currentCarouselItemIdx);
+  updateDropdownActiveItem(oldCarouselItemIdx, currentCarouselItemIdx);
 };
 // End onClick event handlers
 
@@ -331,3 +358,18 @@ for (let i = 0; i < dropdownItemBtns.length; i++) {
   });
 }
 // End inject eventListeners
+
+const initializeCarousel = () => {
+  if (totalCarouselItems > 0) {
+    updateDropdownActiveItem(0, 0);
+  }
+
+  if (totalCarouselItems === 1) {
+    carouselItems[currentCarouselItemIdx].classList.add(activeCarouselItemClassName);
+    return;
+  }
+
+  updateCarouselWindow(0, 0);
+};
+
+initializeCarousel();
