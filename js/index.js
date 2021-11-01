@@ -1,63 +1,75 @@
 const carouselImages = [
   {
-    url: "public/images/blueJay.jpg",
+    url: "images/blueJay.jpg",
     alt: "January",
     text: "January",
+    description: "Blue Jay",
   },
   {
-    url: "public/images/canary.jpg",
+    url: "images/canary.jpg",
     alt: "February",
     text: "February",
+    description: "Canary",
   },
   {
-    url: "public/images/hawk.jpg",
+    url: "images/hawk.jpg",
     alt: "March",
     text: "March",
+    description: "Hawk",
   },
   {
-    url: "public/images/hummingBird.jpg",
+    url: "images/hummingBird.jpg",
     alt: "April",
     text: "April",
+    description: "Hummingbird",
   },
   {
-    url: "public/images/conure.jpg",
+    url: "images/conure.jpg",
     alt: "May",
     text: "May",
+    description: "Conure",
   },
   {
-    url: "public/images/cardinal.jpg",
+    url: "images/cardinal.jpg",
     alt: "June",
     text: "June",
+    description: "Cardinal",
   },
   {
-    url: "public/images/kingFisher.jpg",
+    url: "images/kingFisher.jpg",
     alt: "July",
     text: "July",
+    description: "King Fisher",
   },
   {
-    url: "public/images/sparrow2.jpg",
+    url: "images/sparrow.jpg",
     alt: "August",
     text: "August",
+    description: "Sparrow",
   },
   {
-    url: "public/images/redParakeet.jpg",
+    url: "images/redParakeet.jpg",
     alt: "September",
     text: "September",
+    description: "Red Parakeet",
   },
   {
-    url: "public/images/toucan.jpg",
+    url: "images/toucan.jpg",
     alt: "October",
     text: "October",
+    description: "Toucan",
   },
   {
-    url: "public/images/robin.jpg",
+    url: "images/robin.jpg",
     alt: "November",
     text: "November",
+    description: "Robin",
   },
   {
-    url: "public/images/falcon.jpg",
+    url: "images/falcon.jpg",
     alt: "December",
     text: "December",
+    description: "Falcon",
   },
 ];
 
@@ -66,7 +78,8 @@ const createCarouselItems = (carouselImages) => {
 
   const carouselListItemClassName = "carousel__item";
   const carouselImgClassName = "carousel__img";
-  const carouselImgTextClassName = "carousel__img-text";
+  const carouselImgTextClassName = "carousel__img-title";
+  const carouselImgDescriptionClassName = "carousel__img-description";
 
   for (const img of carouselImages) {
     let carouselListItem = document.createElement("li");
@@ -78,11 +91,16 @@ const createCarouselItems = (carouselImages) => {
     carouselImg.classList.add(carouselImgClassName);
 
     let carouselImgText = document.createElement("p");
-    carouselImgText.innerHTML = img.text;
+    carouselImgText.innerText = img.text;
     carouselImgText.classList.add(carouselImgTextClassName);
+
+    let carouselImgDescription = document.createElement("p");
+    carouselImgDescription.innerText = img.description;
+    carouselImgDescription.classList.add(carouselImgDescriptionClassName);
 
     carouselListItem.appendChild(carouselImg);
     carouselListItem.appendChild(carouselImgText);
+    carouselListItem.appendChild(carouselImgDescription);
 
     carouselInnerContainer.appendChild(carouselListItem);
   }
@@ -289,7 +307,7 @@ const updateCarouselWindow = (oldCarouselItemIdx, newCarouselItemIdx) => {
   setTimeout(() => {
     disableNextAndPrevBtns(false);
     disableDropdownItemBtns(false);
-  }, 600);
+  }, 750);
 };
 
 const updateDropdownActiveItem = (oldCarouselItemIdx, currentCarouselItemIdx) => {

@@ -12,7 +12,7 @@
   --pri-color-white: hsl(0, 0%, 100%);
 
   --bg-color-dark: hsl(0, 0%, 13%);
-  --bg-color-light: hsl(0, 0%, 100%);
+  --bg-color-light: hsl(0%, 0%, 100%);
 
   --container-size: 1024px;
 
@@ -226,6 +226,10 @@ Begin Carousel Styles
   width: 100%;
   height: 45vh;
   max-height: 28rem;
+  box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075),
+    0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.075),
+    0 16px 16px hsl(0deg 0% 0% / 0.075);
+  border-radius: 5px;
 }
 
 .carousel__btn {
@@ -237,6 +241,13 @@ Begin Carousel Styles
   z-index: 10;
   top: 50%; /*top doesn't take in the size of the btns*/
   transform: translateY(-50%);
+  transition-property: background-color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in;
+}
+
+.carousel__btn:hover {
+  background-color: var(--pri-color-lightBlue);
 }
 
 .carousel__btn-icon {
@@ -244,6 +255,13 @@ Begin Carousel Styles
   width: 2rem;
   margin: auto;
   color: var(--pri-color-blue);
+  transition-property: color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in;
+}
+
+.carousel__btn:hover .carousel__btn-icon {
+  color: var(--pri-color-black);
 }
 
 .carousel__btn--next {
@@ -256,10 +274,11 @@ Begin Carousel Styles
 
 .carousel__inner-container {
   position: relative;
-  width: 75%;
+  width: 100%;
   margin: 0 auto;
   height: 100%;
   overflow: hidden;
+  border-radius: 5px; /*on transition border was not rounded */
 }
 
 .carousel__item {
@@ -271,8 +290,12 @@ Begin Carousel Styles
   opacity: 0;
 
   transition-property: transform, opacity;
-  transition-duration: 600ms;
+  transition-duration: 750ms;
   transition-timing-function: cubic-bezier(0.49, 0.11, 0.33, 0.94);
+}
+
+.carousel__item:hover {
+  cursor: pointer;
 }
 
 .carousel__item--active {
@@ -297,12 +320,12 @@ Begin Carousel Styles
   border-radius: 5px;
 }
 
-.carousel__img-text {
+.carousel__img-title {
   position: absolute;
   bottom: 1rem;
   left: 3rem;
   right: 3rem;
-  font-size: 1rem;
+  font-size: 0.85rem;
   padding: 0.25rem 0;
   color: var(--pri-color-blue);
   text-align: center;
@@ -310,6 +333,29 @@ Begin Carousel Styles
   max-width: 16rem;
   margin: 0 auto;
   background-color: rgba(33, 33, 33, 0.9);
+}
+
+.carousel__img-description {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.85rem;
+  color: var(--pri-color-green);
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 0.25em 0.75em;
+  background-color: rgba(33, 33, 33, 0.9);
+  opacity: 0;
+  visibility: hidden;
+
+  transition-property: opacity;
+  transition-duration: 350ms;
+  transition-timing-function: ease-in-out;
+}
+
+.carousel__inner-container:hover .carousel__img-description {
+  opacity: 1;
+  visibility: visible;
 }
 
 @media only screen and (min-width: 768px) {
@@ -326,6 +372,14 @@ Begin Carousel Styles
     margin: auto;
     color: var(--pri-color-blue);
   }
+
+  .carousel__img-title {
+    font-size: 1rem;
+  }
+
+  .carousel__img-description {
+    font-size: 1rem;
+  }
 }
 /* 
 ================================================
@@ -338,6 +392,34 @@ End Carousel Styles
 Begin Footer Styles
 ================================================
 */
+.footer__github-link {
+  display: flex;
+  align-items: center;
+  background-color: hsl(213, 11%, 84%);
+  font-size: 0.85rem;
+  padding: 0.5em 0.75em;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 5px;
+  max-width: 9.75rem;
+  transition-property: background-color;
+  transition-duration: 250ms;
+  transition-timing-function: ease-in-out;
+}
+
+.footer__github-link-text {
+  font-weight: 600;
+}
+
+.footer__github-icon {
+  height: 1.65rem;
+  width: 1.65rem;
+  margin-left: 0.25rem;
+}
+
+.footer__github-link:hover {
+  background-color: var(--pri-color-lightBlue);
+}
 
 /* 
 ================================================
